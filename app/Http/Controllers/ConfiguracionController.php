@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Configuracion;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\DB;
 class ConfiguracionController extends Controller
 {
     /**
@@ -12,7 +12,13 @@ class ConfiguracionController extends Controller
      */
     public function index()
     {
-        //
+        $configuracion=DB::table('configuraciones')
+        ->select('configuraciones.*')
+        ->get();
+        if (count($configuracion)==0) {
+            return response()-> json('no existen configuraciones',404);
+        }
+        return response()->json($configuracion,200);
     }
 
     /**

@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ConfiguracionController;
 //use App\Http\Controllers
+use App\Http\Controllers\JugadorController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -14,8 +15,13 @@ use App\Http\Controllers\ConfiguracionController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-
+//configuraciones
 Route::resource('configuracion',ConfiguracionController::class);
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+//jugadores
+Route::resource('jugadores', JugadorController::class); 
+Route::post('edit-foto-jugador/{id}', [JugadorController::class, 'editarFotoJugador']);
+
+Route::middleware('auth:sanctum')->group ( function () {
+
+
 });

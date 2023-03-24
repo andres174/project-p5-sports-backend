@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('jugador_equipo', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('id_jugador')->constrained('jugadores');
+            $table->foreignId('id_jugador')->constrained('jugadors');
             $table->foreignId('id_equipo')->constrained('equipos');
 
             $table->boolean('estado');

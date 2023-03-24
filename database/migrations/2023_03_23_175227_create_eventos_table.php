@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('nombre');
             $table->string('imagen');
             $table->date('fecha_inicio');
-            $table->date('fecha_fin'); //esto se puede quitar despues dependiendo de la necesidad
+            $table->date('fecha_fin')->nullable(); //esto se puede quitar despues dependiendo de la necesidad
             $table->boolean('estado');
 
             $table->foreignId('id_organizador')->constrained('usuarios');

@@ -34,15 +34,36 @@ class ConfiguracionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validateData=$request->validate([
+            'numero_grupos'         =>'required',
+            'numero_miembros'       =>'required',
+            'minutos_juego'         =>'required',
+            'minutos_entre_partido' =>'required',
+            'tarjetas'              =>'required',
+            'ida_y_vuelta'          =>'required',
+        ]);
+        $configuracion=Configuracion::create([
+            'numero_grupos'         =>$validateData['numero_grupos'],   
+            'numero_miembros'       =>$validateData['numero_miembros'],  
+            'minutos_juego'         =>$validateData['minutos_juego' ],  
+            'minutos_entre_partido' =>$validateData['minutos_entre_partido'],  
+            'tarjetas'              =>$validateData['tarjetas' ],  
+            'ida_y_vuelta'          =>$validateData['ida_y_vuelta'], 
+            'estado'                =>1, 
+        ]);
+        return response()->json(['message'=>'La configuracion se registro exitosamente'],200);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Configuracion $configuracion)
+    public function show( $id)
     {
-        //
+        $configuracion=Configuracion::find($id);
+        if (is_null($configuracion)) {
+            return response()->json(['message' => 'configuracion no encontrada'], 404);
+        }
+        return response()->json($configuracion);
     }
 
     /**
@@ -56,16 +77,41 @@ class ConfiguracionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Configuracion $configuracion)
+    public function update(Request $request,  $id)
     {
-        //
+        $configuracion=Configuracion::find($id);
+        if (is_null($configuracion)) {
+            return response()->json(['message' => 'configuracion no encontrada'], 404);
+        }
+        $validateData=$request->validate([
+            'numero_grupos'         =>'required',
+            'numero_miembros'       =>'required',
+            'minutos_juego'         =>'required',
+            'minutos_entre_partido' =>'required',
+            'tarjetas'              =>'required',
+            'ida_y_vuelta'          =>'required',
+        ]);
+        $configuracion->numero_grupos           =$validateData['numero_grupos'];
+        $configuracion->numero_miembros         =$validateData['numero_miembros'];
+        $configuracion->minutos_juego           =$validateData['minutos_juego'];
+        $configuracion->minutos_entre_partido   =$validateData['minutos_entre_partido'];
+        $configuracion->tarjetas                =$validateData['tarjetas'];
+        $configuracion->ida_y_vuelta            =$validateData['ida_y_vuelta'];
+        $configuracion->save();
+        return response()->json(['message'=>'La configuracion se actualizo exitosamente'],200);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Configuracion $configuracion)
+    public function destroy( $id)
     {
-        //
+        $configuracion=Configuracion::find($id);
+        if (is_null($configuracion)) {
+            return response()->json(['message' => 'configuracion no encontrada'], 404);
+        }
+        $configuracion->estado=0;
+        $configuracion->save();
+        return response()->json(['message'=>'La configuracion se elimino exitosamente'],200);
     }
 }

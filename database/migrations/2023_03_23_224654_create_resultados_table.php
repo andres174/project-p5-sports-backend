@@ -17,7 +17,7 @@ return new class extends Migration
             $table->integer('goles_favor');
             $table->integer('goles_contra');
 
-            $table->foreignId('id_equipo_disciplina')->constrained('equipo_disciplina');
+            $table->foreignId('id_equipo_disciplina')->constrained('equipo_disciplinas');
             $table->foreignId('id_partido')->constrained('partidos');
 
             $table->boolean('estado');

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('nombre_grupo');
             $table->boolean('estado');
 
-            $table->foreignId('id_evento_disciplina')->constrained('evento_disciplina');
+            $table->foreignId('id_evento_disciplina')->constrained('evento_disciplinas');
         });
     }
 

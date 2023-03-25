@@ -12,8 +12,8 @@ class AccionJugadorController extends Controller
      */
     public function index()
     {
-        $AccionJugador = AccionJugador:: where('estado',1) -> get();
-        return response()->json($AccionJugador,200);
+        $AccionJugador = AccionJugador::where('estado',1)->get();
+        return response()->json($AccionJugador, 200);
         //
     }
 

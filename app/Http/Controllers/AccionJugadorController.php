@@ -12,6 +12,8 @@ class AccionJugadorController extends Controller
      */
     public function index()
     {
+        $AccionJugador = AccionJugador:: where('estado',1) -> get();
+        return response()->json($AccionJugador,200);
         //
     }
 
@@ -28,15 +30,29 @@ class AccionJugadorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validateData=$request->validate([
+            'descripcion'=>'required|string|max:255',
+        ]);
+
+        $AccionJugador=accionjugador::create([
+            'descripcion'=>$validateData['descripcion'],
+            'estado'=>1,
+        ]);
+
+        return response()->json(['message'=>'AccionJugador registrado'],200);
+
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(AccionJugador $accionJugador)
+    public function show($id)
     {
-        //
+        $AccionJugador=accionjugador::find($id);
+        if (is_null($AccionJugador)) {
+            return response()->json(['message' => 'accionjugador no encontrado'], 404);
+        }
+        return response()->json($AccionJugador);
     }
 
     /**
@@ -50,16 +66,31 @@ class AccionJugadorController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, AccionJugador $accionJugador)
+    public function update(Request $request, $id)
     {
-        //
+        $AJ = accionjugador::find($id);
+        if (is_null($AJ)) {
+            return response()->json(['message' => 'accionjugador no encontrado.'], 404);
+        }
+        $validateData = $request->validate([
+            'descripcion'=>'required|string|max:255',
+        ]);
+        $AJ->descripcion = $validateData['descripcion'];
+        $AJ->save();
+        return response()->json(['message' => 'accionjugador actualizado'], 200);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(AccionJugador $accionJugador)
+    public function destroy($id)
     {
-        //
+        $AccionJugador=accionjugador::find($id);
+        if (is_null($AccionJugador)) {
+            return response()->json(['message' => 'accionjugador no encontrado'], 404);
+        }
+        $AccionJugador->estado=0;
+        $AccionJugador->save();
+        return response()->json(['message'=>'accionjugador eliminado']);
     }
 }

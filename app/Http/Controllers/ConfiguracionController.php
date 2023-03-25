@@ -35,12 +35,12 @@ class ConfiguracionController extends Controller
     public function store(Request $request)
     {
         $validateData=$request->validate([
-            'numero_grupos'         =>'required',
-            'numero_miembros'       =>'required',
-            'minutos_juego'         =>'required',
-            'minutos_entre_partido' =>'required',
-            'tarjetas'              =>'required',
-            'ida_y_vuelta'          =>'required',
+            'numero_grupos'         =>'required|integer',
+            'numero_miembros'       =>'required|integer',
+            'minutos_juego'         =>'required|integer',
+            'minutos_entre_partido' =>'required|integer',
+            'tarjetas'              =>'required|boolean',
+            'ida_y_vuelta'          =>'required|boolean',
         ]);
         $configuracion=Configuracion::create([
             'numero_grupos'         =>$validateData['numero_grupos'],   
@@ -84,12 +84,12 @@ class ConfiguracionController extends Controller
             return response()->json(['message' => 'configuracion no encontrada'], 404);
         }
         $validateData=$request->validate([
-            'numero_grupos'         =>'required',
-            'numero_miembros'       =>'required',
-            'minutos_juego'         =>'required',
-            'minutos_entre_partido' =>'required',
-            'tarjetas'              =>'required',
-            'ida_y_vuelta'          =>'required',
+            'numero_grupos'         =>'required|integer',
+            'numero_miembros'       =>'required|integer',
+            'minutos_juego'         =>'required|integer',
+            'minutos_entre_partido' =>'required|integer',
+            'tarjetas'              =>'required|boolean',
+            'ida_y_vuelta'          =>'required|boolean',
         ]);
         $configuracion->numero_grupos           =$validateData['numero_grupos'];
         $configuracion->numero_miembros         =$validateData['numero_miembros'];

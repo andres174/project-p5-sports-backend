@@ -12,8 +12,7 @@ class ConfiguracionController extends Controller
      */
     public function index()
     {
-        $configuracion=DB::table('configuraciones')
-        ->select('configuraciones.*')
+        $configuracion=Configuracion::where('estado',1)
         ->get();
         if (count($configuracion)==0) {
             return response()-> json('no existen configuraciones',404);
@@ -38,7 +37,7 @@ class ConfiguracionController extends Controller
             'numero_grupos'         =>'required|integer',
             'numero_miembros'       =>'required|integer',
             'minutos_juego'         =>'required|integer',
-            'minutos_entre_partido' =>'required|integer',
+            'minutos_entre_partidos'=>'required|integer',
             'tarjetas'              =>'required|boolean',
             'ida_y_vuelta'          =>'required|boolean',
         ]);
@@ -46,7 +45,7 @@ class ConfiguracionController extends Controller
             'numero_grupos'         =>$validateData['numero_grupos'],   
             'numero_miembros'       =>$validateData['numero_miembros'],  
             'minutos_juego'         =>$validateData['minutos_juego' ],  
-            'minutos_entre_partido' =>$validateData['minutos_entre_partido'],  
+            'minutos_entre_partidos' =>$validateData['minutos_entre_partidos'],  
             'tarjetas'              =>$validateData['tarjetas' ],  
             'ida_y_vuelta'          =>$validateData['ida_y_vuelta'], 
             'estado'                =>1, 

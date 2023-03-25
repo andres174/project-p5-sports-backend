@@ -19,9 +19,6 @@ return new class extends Migration
             $table->string('foto');
             $table->integer('numero');
             $table->boolean('estado');
-
-            $table->foreignId('id_posicion')->constrained('posiciones');
-
         });
     }
 
@@ -30,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('jugadores');
+        Schema::dropIfExists('jugadors');
     }
 };

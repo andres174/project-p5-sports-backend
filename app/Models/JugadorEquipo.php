@@ -11,7 +11,8 @@ class JugadorEquipo extends Model
     public $timestamps = false;
     protected $fillable = [
         'id_jugador',
-        'id_equipo',
+        'id_equipo_disciplina',
+        'id_posicion',
         'estado',
     ];
 }

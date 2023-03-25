@@ -16,6 +16,5 @@ class Jugador extends Model
         'foto',
         'numero',
         'estado',
-        'id_posicion',
     ];
 }

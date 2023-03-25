@@ -2,9 +2,13 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+
+//usar como ejemplo para importar los nuevos controladores
+
+//use App\Http\Controllers
+
 use App\Http\Controllers\ConfiguracionController;
 use App\Http\Controllers\AccionJugadorController;
-//use App\Http\Controllers
 use App\Http\Controllers\JugadorController;
 /*
 |--------------------------------------------------------------------------
@@ -18,6 +22,7 @@ use App\Http\Controllers\JugadorController;
 */
 //configuraciones
 Route::resource('configuracion',ConfiguracionController::class);
+
 // Accion Jugador 
 Route::resource('accion_jugador',AccionJugadorController::class);
 
@@ -25,7 +30,7 @@ Route::resource('accion_jugador',AccionJugadorController::class);
 Route::resource('jugadores', JugadorController::class); 
 Route::post('edit-foto-jugador/{id}', [JugadorController::class, 'editarFotoJugador']);
 
-Route::middleware('auth:sanctum')->group ( function () {
+Route::middleware('auth:sanctum')->group (function () {
 
 
 });

@@ -52,7 +52,7 @@ class AccionJugadorController extends Controller
         if (is_null($AccionJugador)) {
             return response()->json(['message' => 'accionjugador no encontrado'], 404);
         }
-        return response()->json($AccionJugador);
+        return response()->json($AccionJugador, 200);
     }
 
     /**

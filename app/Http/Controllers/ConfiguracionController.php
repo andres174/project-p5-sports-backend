@@ -86,14 +86,14 @@ class ConfiguracionController extends Controller
             'numero_grupos'         =>'required|integer',
             'numero_miembros'       =>'required|integer',
             'minutos_juego'         =>'required|integer',
-            'minutos_entre_partido' =>'required|integer',
+            'minutos_entre_partidos'=>'required|integer',
             'tarjetas'              =>'required|boolean',
             'ida_y_vuelta'          =>'required|boolean',
         ]);
         $configuracion->numero_grupos           =$validateData['numero_grupos'];
         $configuracion->numero_miembros         =$validateData['numero_miembros'];
         $configuracion->minutos_juego           =$validateData['minutos_juego'];
-        $configuracion->minutos_entre_partido   =$validateData['minutos_entre_partido'];
+        $configuracion->minutos_entre_partidos  =$validateData['minutos_entre_partidos'];
         $configuracion->tarjetas                =$validateData['tarjetas'];
         $configuracion->ida_y_vuelta            =$validateData['ida_y_vuelta'];
         $configuracion->save();

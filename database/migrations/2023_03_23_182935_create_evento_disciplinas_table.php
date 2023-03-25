@@ -16,7 +16,7 @@ return new class extends Migration
 
             $table->foreignId('id_disciplina')->constrained('disciplinas');
             $table->foreignId('id_evento')->constrained('eventos');
-            $table->foreignId('id_configuracion')->constrained('configuraciones');
+            $table->foreignId('id_configuracion')->constrained('configuraciones')->nullable();
 
             $table->boolean('estado');
         });

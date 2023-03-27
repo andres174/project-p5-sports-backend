@@ -14,7 +14,6 @@ class Jugador extends Model
         'apellido',
         'cedula',
         'foto',
-        'numero',
         'estado',
     ];
 }

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('id_jugador')->constrained('jugadors');
             $table->foreignId('id_equipo_disciplina')->constrained('equipo_disciplinas');
             $table->foreignId('id_posicion')->constrained('posicions');
+            $table->integer('numero');
 
             $table->boolean('estado');
         });

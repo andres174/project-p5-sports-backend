@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('apellido');
             $table->string('cedula', 10);
             $table->string('foto');
-            $table->integer('numero');
             $table->boolean('estado');
         });
     }

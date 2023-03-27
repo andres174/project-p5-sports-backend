@@ -13,6 +13,7 @@ class JugadorEquipo extends Model
         'id_jugador',
         'id_equipo_disciplina',
         'id_posicion',
+        'numero',
         'estado',
     ];
 }

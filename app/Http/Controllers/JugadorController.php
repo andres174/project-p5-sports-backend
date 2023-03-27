@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Jugador;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\DB;
+/* use Illuminate\Support\Facades\DB; */
 class JugadorController extends Controller
 {
     /**
@@ -13,12 +13,9 @@ class JugadorController extends Controller
      */
     public function index()
     {
-        $jugador = DB::table('jugadors')
-        ->join('posiciones','jugadors.id_posicion','=','posiciones.id')
-        ->select('jugadors.*','posiciones.descripcion as posicione')
-        ->where('posiciones.estado',1)
-        ->get();
+        $jugador = jugador::where('estado',1)->get();
         return response()->json($jugador, 200);
+        //
     }
 
     /**
@@ -32,15 +29,15 @@ class JugadorController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+    
     public function store(Request $request)
     {
+        
         $validateData=$request->validate([
             'nombre'=>'required|string|max:255',
             'apellido'=>'required|string|max:255',
             'cedula'=>'required|string|max:255',
-            'numero'=>'required|string|max:255',
             'foto' => 'required|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'id_posicion'=>'required',
         ]);
         //imagen
         $img = $request->file('foto');
@@ -51,9 +48,7 @@ class JugadorController extends Controller
             'nombre'=>$validateData['nombre'],
             'apellido'=>$validateData['apellido'],
             'cedula'=>$validateData['cedula'],
-            'numero'=>$validateData['numero'],
             'foto'=>$valiData['foto'],
-            'id_posicion'=>$validateData['id_posicion'],
             'estado'=>1,
         ]);
 
@@ -96,15 +91,11 @@ class JugadorController extends Controller
             'nombre'=>'required|string|max:255',
             'apellido'=>'required|string|max:255',
             'cedula'=>'required|string|max:255',
-            'numero'=>'required|string|max:255',
-            'id_posicion'=>'required',
 
         ]);
         $jugador->nombre = $validateData['nombre'];
         $jugador->apellido = $validateData['apellido'];
         $jugador->cedula = $validateData['cedula'];
-        $jugador->numero = $validateData['numero'];
-        $jugador->id_posicion = $validateData['id_posicion'];
         $jugador->save();
         return response()->json(['message' => 'Jugador actualizado'], 200);
     }

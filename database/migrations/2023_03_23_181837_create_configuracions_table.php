@@ -20,6 +20,9 @@ return new class extends Migration
             $table->integer('minutos_entre_partidos');
             $table->boolean('tarjetas');
             $table->boolean('ida_y_vuelta');
+
+            $table->foreignId('id_organizador')->nullable()->constrained('usuarios');
+
             $table->boolean('estado');
         });
     }

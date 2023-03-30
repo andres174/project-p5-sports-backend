@@ -17,6 +17,7 @@ class Configuracion extends Model
         'minutos_entre_partidos',
         'tarjetas',
         'ida_y_vuelta',
+        'id_organizador',
         'estado',
     ];
 }

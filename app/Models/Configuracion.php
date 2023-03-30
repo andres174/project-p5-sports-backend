@@ -10,6 +10,7 @@ class Configuracion extends Model
     use HasFactory;
     public $timestamps = false;
     protected $fillable = [
+        'nombre',
         'numero_grupos',
         'numero_miembros',
         'minutos_juego',

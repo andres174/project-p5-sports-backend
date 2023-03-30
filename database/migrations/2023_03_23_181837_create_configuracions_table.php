@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('configuracions', function (Blueprint $table) {
             $table->id();
+            $table->string('nombre')->unique();
             $table->integer('numero_grupos');
             $table->integer('numero_miembros');
             $table->integer('minutos_juego');

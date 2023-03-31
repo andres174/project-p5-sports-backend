@@ -12,6 +12,7 @@ use App\Http\Controllers\AccionJugadorController;
 use App\Http\Controllers\JugadorController;
 use App\Http\Controllers\DisciplinaController;
 use App\Http\Controllers\PosicionController;
+use App\Http\Controllers\UsuarioController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,7 +40,12 @@ Route::post('edit-foto-jugador/{id}', [JugadorController::class, 'editarFotoJuga
 // Posiciones
 Route::apiResource('posiciones', PosicionController::class);
 
+// Usuarios
+Route::apiResource('usuarios', UsuarioController::class);
+Route::post('edit-email-usuario/{id}', [UsuarioController::class, 'editarEmailUsuario']);
+Route::post('edit-password-usuario/{id}', [UsuarioController::class, 'editarPasswordUsuario']);
+Route::post('edit-foto-usuario/{id}', [UsuarioController::class, 'editarFotoUsuario']);
+
+
 Route::middleware('auth:sanctum')->group(function () {
-
-
 });

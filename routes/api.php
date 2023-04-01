@@ -12,6 +12,7 @@ use App\Http\Controllers\AccionJugadorController;
 use App\Http\Controllers\JugadorController;
 use App\Http\Controllers\DisciplinaController;
 use App\Http\Controllers\PosicionController;
+use App\Http\Controllers\GrupoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,7 +40,20 @@ Route::post('edit-foto-jugador/{id}', [JugadorController::class, 'editarFotoJuga
 // Posiciones
 Route::apiResource('posiciones', PosicionController::class);
 
+
+//las que van con token
 Route::middleware('auth:sanctum')->group(function () {
 
 
 });
+
+
+
+
+
+
+# ******************************************
+#             RUTAS DE PRUEBA
+# ******************************************
+
+Route::get('getConfiguracionGrupo', [GrupoController::class, 'getConfiguracion']);

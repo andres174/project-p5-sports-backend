@@ -34,20 +34,24 @@ class ConfiguracionController extends Controller
     public function store(Request $request)
     {
         $validateData=$request->validate([
+            'nombre'                =>'required|string|max:255',
             'numero_grupos'         =>'required|integer',
             'numero_miembros'       =>'required|integer',
             'minutos_juego'         =>'required|integer',
             'minutos_entre_partidos'=>'required|integer',
             'tarjetas'              =>'required|boolean',
             'ida_y_vuelta'          =>'required|boolean',
+            'id_organizador'        =>'required',
         ]);
         $configuracion=Configuracion::create([
+            'nombre'                =>$validateData['nombre'],
             'numero_grupos'         =>$validateData['numero_grupos'],   
             'numero_miembros'       =>$validateData['numero_miembros'],  
             'minutos_juego'         =>$validateData['minutos_juego' ],  
             'minutos_entre_partidos' =>$validateData['minutos_entre_partidos'],  
             'tarjetas'              =>$validateData['tarjetas' ],  
             'ida_y_vuelta'          =>$validateData['ida_y_vuelta'], 
+            'id_organizador'        =>$validateData['id_organizador'],
             'estado'                =>1, 
         ]);
         return response()->json(['message'=>'La configuracion se registro exitosamente'],200);
@@ -83,19 +87,23 @@ class ConfiguracionController extends Controller
             return response()->json(['message' => 'configuracion no encontrada'], 404);
         }
         $validateData=$request->validate([
+            'nombre'                =>'required|string|max:255',
             'numero_grupos'         =>'required|integer',
             'numero_miembros'       =>'required|integer',
             'minutos_juego'         =>'required|integer',
             'minutos_entre_partidos'=>'required|integer',
             'tarjetas'              =>'required|boolean',
             'ida_y_vuelta'          =>'required|boolean',
+            'id_organizador'        =>'required',
         ]);
+        $configuracion->nombre                  =$validateData['nombre'];
         $configuracion->numero_grupos           =$validateData['numero_grupos'];
         $configuracion->numero_miembros         =$validateData['numero_miembros'];
         $configuracion->minutos_juego           =$validateData['minutos_juego'];
         $configuracion->minutos_entre_partidos  =$validateData['minutos_entre_partidos'];
         $configuracion->tarjetas                =$validateData['tarjetas'];
         $configuracion->ida_y_vuelta            =$validateData['ida_y_vuelta'];
+        $configuracion->id_organizador            =$validateData['id_organizador'];
         $configuracion->save();
         return response()->json(['message'=>'La configuracion se actualizo exitosamente'],200);
     }

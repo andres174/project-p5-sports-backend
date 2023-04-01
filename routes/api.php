@@ -13,6 +13,7 @@ use App\Http\Controllers\JugadorController;
 use App\Http\Controllers\DisciplinaController;
 use App\Http\Controllers\PosicionController;
 use App\Http\Controllers\GrupoController;
+use App\Http\Controllers\UsuarioController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,6 +42,14 @@ Route::post('edit-foto-jugador/{id}', [JugadorController::class, 'editarFotoJuga
 Route::apiResource('posiciones', PosicionController::class);
 
 
+// Usuarios
+Route::apiResource('usuarios', UsuarioController::class);
+Route::get('organizadores', [UsuarioController::class, 'getOrganizadores']);
+Route::post('edit-email-usuario/{id}', [UsuarioController::class, 'editarEmailUsuario']);
+Route::post('edit-password-usuario/{id}', [UsuarioController::class, 'editarPasswordUsuario']);
+Route::post('edit-foto-usuario/{id}', [UsuarioController::class, 'editarFotoUsuario']);
+
+
 //las que van con token
 Route::middleware('auth:sanctum')->group(function () {
 
@@ -51,6 +60,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
 
 
+
+
+
+// -----------------------------------------------------------------------------------------
 
 # ******************************************
 #             RUTAS DE PRUEBA

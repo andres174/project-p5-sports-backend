@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LoginController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -25,6 +26,11 @@ use App\Http\Controllers\UsuarioController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+
+//Login 
+//no va dentro del middleware
+Route::post('login', [LoginController::class, 'login']);
+
 //configuraciones
 Route::resource('configuracion', ConfiguracionController::class);
 

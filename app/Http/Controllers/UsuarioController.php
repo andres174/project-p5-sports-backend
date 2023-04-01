@@ -13,8 +13,16 @@ class UsuarioController extends Controller
      */
     public function index()
     {
-        $usuario = Usuario::where('estado', 1)->get();
-        return response()->json($usuario, 200);
+        $user = Usuario::where('estado', 1)->get();
+        return response()->json($user, 200);
+    }
+
+    public function getOrganizadores()
+    {
+        $organizadores = Usuario::where("id_tipo_usuario", 2)
+            ->where('estado', 1)
+            ->get();
+        return response()->json($organizadores, 200);
     }
 
     /**
@@ -23,14 +31,18 @@ class UsuarioController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'nombre'        => 'required|string|max:255',
-            'apellido'      => 'required|string|max:255',
-            'email'         => 'required|string|email|max:255|unique:usuarios',
-            'password'      => 'required|string|min:8',
-            'foto_perfil'   => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
+            'nombre'            => 'required|string|max:255',
+            'apellido'          => 'required|string|max:255',
+            'email'             => 'required|string|email|max:255|unique:usuarios',
+            'password'          => 'required|string|min:8',
+            'foto_perfil'       => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
+            'id_tipo_usuario'   => 'nullable|integer'
         ]);
 
-        $userType = 2;
+        // Organizador por defecto
+        if (!array_key_exists('id_tipo_usuario', $validatedData)) {
+            $validatedData['id_tipo_usuario'] = 2;
+        }
 
         $img = $request->file('foto_perfil');
         $validatedData['foto_perfil'] = time() . '.' . $img->getClientOriginalExtension();
@@ -39,7 +51,6 @@ class UsuarioController extends Controller
 
         $user = Usuario::create([
             ...$validatedData,
-            'id_tipo_usuario' => $userType,
             'estado' => 1
         ]);
 

@@ -134,11 +134,11 @@ class GrupoController extends Controller
 
         for ($i=0; $i < $numero_grupos; $i++) { 
             
-            $equipos = $this->obtenerEquipos($random_equipos_miembros, $inicio, $final); //falta
+            $equipos = $this->obtenerEquipos($random_equipos_miembros, $inicio, $final); 
 
             $string_equipos = implode(",", $equipos);
 
-            $nombre_grupo = $this->obtenerNombreGrupo($id_evento_disciplina); //falta
+            $nombre_grupo = $this->obtenerNombreGrupo($id_evento_disciplina); 
 
             $this->crearGrupo($string_equipos, ($i + 1)." ".$nombre_grupo, $id_evento_disciplina); //falta
 
@@ -146,6 +146,45 @@ class GrupoController extends Controller
             $final = $final + $numero_miembros;
 
         }
+
+    }
+
+    //solo dios sabe que hace esta función
+    //Creo que hace algo con los equipos
+
+    //FALTAN PRUEBAS
+    private function obtenerEquipos($random_equipos_miembros, $inicio, $final){
+
+        $new_equipos = [];
+
+        for ($i=0; $i < count($random_equipos_miembros); $i++) { 
+            if ($i >= $inicio && $i < $final) {
+                $new_equipos[$i] = $random_equipos_miembros[$i];
+            }
+        }
+
+        return $new_equipos;
+    }
+
+    //obtiene el nombre de la disciplina para poder crear el grupo de una forma mas comoda
+
+    //FALTAN PRUEBAS
+    public function obtenerNombreGrupo($id_evento_disciplina){
+
+        $nombreC = DB::table('disciplinas')
+        ->join('evento_disciplinas', 'disciplinas.id', '=', 'evento_disciplinas.id_disciplina')
+        ->select('disciplinas.nombre')
+        ->where('evento_disciplinas.id', $id_evento_disciplina)
+        ->get();
+
+        return $nombreC[0]->nombre;
+
+    }
+
+    private function crearGrupo($string_equipos, $nombre_grupo, $id_evento_disciplina){
+
+        //FALTA
+
 
     }
 

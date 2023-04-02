@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Grupo;
 use App\Models\Configuracion;
+use App\Models\GrupoEquipo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -89,7 +90,9 @@ class GrupoController extends Controller
         $numero_grupos = $configuracion[0]->numero_grupos;
         $numero_miembros = $configuracion[0]->numero_miembros;
 
-        //falta
+        $this->generarGrupos($numero_grupos, $numero_miembros, $random_equipos_miembros, $req_validada['id_evento_disciplina']);
+
+        return response()->json(['message' => 'Grupos generados automáticamente']);
 
     }
 
@@ -181,11 +184,25 @@ class GrupoController extends Controller
 
     }
 
+    //como tal esta es la funcion que crea los grupos en la base de datos
     private function crearGrupo($string_equipos, $nombre_grupo, $id_evento_disciplina){
 
-        //FALTA
+        $grupo = Grupo::create([
+            'nombre_grupo' => "GRUPO {$nombre_grupo}",
+            'id_evento_disciplina' => $id_evento_disciplina,
+            'estado' => 1
+        ]);
 
+        $equipos_crear = explode(',', $string_equipos);
 
+        foreach ($equipos_crear as $e) {
+            GrupoEquipo::create([
+                'id_equipo' => $e,
+                'id_grupo' => $grupo->id,
+                'estado' => 1
+            ]);
+        }
+        
     }
 
 

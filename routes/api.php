@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LoginController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -12,6 +13,7 @@ use App\Http\Controllers\AccionJugadorController;
 use App\Http\Controllers\JugadorController;
 use App\Http\Controllers\DisciplinaController;
 use App\Http\Controllers\PosicionController;
+use App\Http\Controllers\GrupoController;
 use App\Http\Controllers\UsuarioController;
 
 /*
@@ -24,6 +26,11 @@ use App\Http\Controllers\UsuarioController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+
+//Login 
+//no va dentro del middleware
+Route::post('login', [LoginController::class, 'login']);
+
 //configuraciones
 Route::resource('configuracion', ConfiguracionController::class);
 
@@ -40,6 +47,7 @@ Route::post('edit-foto-jugador/{id}', [JugadorController::class, 'editarFotoJuga
 // Posiciones
 Route::apiResource('posiciones', PosicionController::class);
 
+
 // Usuarios
 Route::apiResource('usuarios', UsuarioController::class);
 Route::get('organizadores', [UsuarioController::class, 'getOrganizadores']);
@@ -48,5 +56,23 @@ Route::post('edit-password-usuario/{id}', [UsuarioController::class, 'editarPass
 Route::post('edit-foto-usuario/{id}', [UsuarioController::class, 'editarFotoUsuario']);
 
 
+//las que van con token
 Route::middleware('auth:sanctum')->group(function () {
+
+
 });
+
+
+
+
+
+
+
+
+// -----------------------------------------------------------------------------------------
+
+# ******************************************
+#             RUTAS DE PRUEBA
+# ******************************************
+
+Route::get('getConfiguracionGrupo', [GrupoController::class, 'getConfiguracion']);

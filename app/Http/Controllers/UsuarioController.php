@@ -35,17 +35,21 @@ class UsuarioController extends Controller
             'apellido' => 'required|string|min:2|max:255',
             'email' => 'required|string|email|max:255|unique:usuarios',
             'password' => 'required|string|min:8|max:255',
-            'foto_perfil' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
+            'foto_perfil' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
             'id_tipo_usuario' => 'nullable|integer'
         ]);
 
         // Organizador por defecto
-        if (!array_key_exists('id_tipo_usuario', $validatedData)) {
+        if (empty($validatedData['id_tipo_usuario'])) {
             $validatedData['id_tipo_usuario'] = 2;
         }
 
-        $img = $request->file('foto_perfil');
-        $validatedData['foto_perfil'] = time() . '.' . $img->getClientOriginalExtension();
+        if (isset($validatedData['foto_perfil'])) {
+            $img = $request->file('foto_perfil');
+            $validatedData['foto_perfil'] = time() . '.' . $img->getClientOriginalExtension();
+        } else {
+            $validatedData['foto_perfil'] = null;
+        }
 
         $validatedData['password'] = Hash::make($validatedData['password']);
 
@@ -54,7 +58,9 @@ class UsuarioController extends Controller
             'estado' => 1
         ]);
 
-        $img->storeAs("public/foto/usuario/{$user->id}", $validatedData['foto_perfil']);
+        if (isset($user->foto_perfil)) {
+            $img->storeAs("public/foto/usuario/{$user->id}", $validatedData['foto_perfil']);
+        }
 
         return response()->json(['message' => 'Usuario registrado'], 200);
     }
@@ -76,25 +82,18 @@ class UsuarioController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        // return response()->json($request, 200);
-
         $user = Usuario::find($id);
         if (is_null($user)) {
             return response()->json(['message' => 'Usuario no encontrado'], 404);
         }
-        // return response()->json('validatedData', 200);
 
         $validatedData = $request->validate([
             'nombre' => 'required|string|min:2|max:255',
             'apellido' => 'required|string|min:2|max:255',
-            'email' => 'nullable|string|email|max:255',
-            'password' => 'nullable|string|min:8|max:255',
+            // 'email' => 'nullable|string|email|max:255',
+            // 'password' => 'nullable|string|min:8|max:255',
             // 'id_tipo_usuario' => 'nullable|integer'
         ]);
-
-        if (array_key_exists('password', $validatedData)) {
-            $validatedData['password'] = Hash::make($validatedData['password']);
-        }
 
         $user->fill($validatedData);
         $user->save();

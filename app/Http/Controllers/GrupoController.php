@@ -110,6 +110,7 @@ class GrupoController extends Controller
         return $eq;
 
     }
+     
 
     // función para obtener la configuración
 

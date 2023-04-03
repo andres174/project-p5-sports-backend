@@ -62,8 +62,14 @@ class ConfiguracionController extends Controller
      */
     public function show( $id)
     {
-        $configuracion=Configuracion::find($id);
-        if (is_null($configuracion)) {
+        $configuracion=DB::table('configuracions')
+        ->join('usuarios','configuracions.id_organizador','=','usuarios.id')
+        ->select('configuracions.*')
+        ->where('configuracions.estado',1)
+        ->where('configuracions.id_organizador',$id)
+        ->orWhere('configuracions.id_organizador',1)
+        ->get();
+        if (count($configuracion)== 0) {
             return response()->json(['message' => 'configuracion no encontrada'], 404);
         }
         return response()->json($configuracion);
@@ -103,7 +109,7 @@ class ConfiguracionController extends Controller
         $configuracion->minutos_entre_partidos  =$validateData['minutos_entre_partidos'];
         $configuracion->tarjetas                =$validateData['tarjetas'];
         $configuracion->ida_y_vuelta            =$validateData['ida_y_vuelta'];
-        $configuracion->id_organizador            =$validateData['id_organizador'];
+        $configuracion->id_organizador          =$validateData['id_organizador'];
         $configuracion->save();
         return response()->json(['message'=>'La configuracion se actualizo exitosamente'],200);
     }

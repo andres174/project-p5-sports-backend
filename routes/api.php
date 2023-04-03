@@ -33,6 +33,7 @@ Route::post('login', [LoginController::class, 'login']);
 
 //configuraciones
 Route::resource('configuracion', ConfiguracionController::class);
+Route::post('deleteSelectConfiguracion', [ConfiguracionController::class, 'deleteSelectConfiguraciones']);
 
 //disciplinas
 Route::resource('disciplinas', DisciplinaController::class);

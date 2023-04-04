@@ -10,25 +10,19 @@ use Illuminate\Support\Facades\DB;
 
 class GrupoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    
     public function index()
     {
         //
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    
     public function store(Request $request)
     {
         //
@@ -37,7 +31,7 @@ class GrupoController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Grupo $grupo)
+    public function show($id)
     {
         //
     }
@@ -45,7 +39,7 @@ class GrupoController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Grupo $grupo)
+    public function edit($id)
     {
         //
     }
@@ -53,17 +47,15 @@ class GrupoController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Grupo $grupo)
+    public function update(Request $request, $id)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Grupo $grupo)
+    
+    public function destroy($id)
     {
-        //
+        // hay que ver como hago esto
     }
 
     // no uso las routas resource por ahora
@@ -114,7 +106,7 @@ class GrupoController extends Controller
 
     // función para obtener la configuración
 
-    public function getConfiguracion($id_evento_disciplina){
+    private function getConfiguracion($id_evento_disciplina){
         $config = DB::table('evento_disciplinas')
         ->join('configuracions','evento_disciplinas.id_configuracion','=','configuracions.id')
         ->select('configuracions.*','evento_disciplinas.id_configuracion')
@@ -128,6 +120,8 @@ class GrupoController extends Controller
         //return para pruebas
         /* return response()->json($config, 200); */
     }
+
+
 
     //En esta función se empiezan a crear los grupos como tal
     /* Obtiene la info de los miembros ademas va guardando los arrays y crea los nombres y los grupos como tal */
@@ -153,6 +147,8 @@ class GrupoController extends Controller
 
     }
 
+
+
     //solo dios sabe que hace esta función
     //Creo que hace algo con los equipos
 
@@ -170,7 +166,10 @@ class GrupoController extends Controller
         return $new_equipos;
     }
 
+
+
     //obtiene el nombre de la disciplina para poder crear el grupo de una forma mas comoda
+
 
     //FALTAN PRUEBAS
     public function obtenerNombreGrupo($id_evento_disciplina){
@@ -184,6 +183,7 @@ class GrupoController extends Controller
         return $nombreC[0]->nombre;
 
     }
+
 
     //como tal esta es la funcion que crea los grupos en la base de datos
     private function crearGrupo($string_equipos, $nombre_grupo, $id_evento_disciplina){
@@ -204,6 +204,14 @@ class GrupoController extends Controller
             ]);
         }
         
+    }
+
+    //idea
+
+    public function previsualizarGrupos(){
+
+        //devolver los grupos antes de crearlos como tal en la base de datos
+
     }
 
 

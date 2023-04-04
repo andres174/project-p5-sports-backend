@@ -29,7 +29,8 @@ class UsuarioSeeder extends Seeder
             'apellido' => 'Prueba',
             'email' => 'organizador_prueba@gmail.com',
             'password' => Hash::make('12345678'),
-            'foto_perfil' => 'organizador_foto.jpg',
+            // 'foto_perfil' => 'organizador_foto.jpg',
+            'foto_perfil' => null,
             'estado' => 1,
             'id_tipo_usuario' => 2,
         ]);

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('apellido');
             $table->string('email')->unique();
             $table->string('password');
-            $table->string('foto_perfil');
+            $table->string('foto_perfil')->nullable();
             $table->boolean('estado');
 
             $table->foreignId('id_tipo_usuario')->constrained('tipo_usuarios');

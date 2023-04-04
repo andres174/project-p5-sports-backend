@@ -37,7 +37,7 @@ Route::post('deleteSelectConfiguracion', [ConfiguracionController::class, 'delet
 
 //disciplinas
 Route::resource('disciplinas', DisciplinaController::class);
-
+Route::post('deleteSelectDisciplina', [DisciplinaController::class, 'deleteSelectDisciplinas']);
 // Accion Jugador 
 Route::resource('accion_jugador', AccionJugadorController::class);
 

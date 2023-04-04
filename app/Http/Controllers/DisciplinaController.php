@@ -95,4 +95,16 @@ class DisciplinaController extends Controller
         return response()->json(['message' => 'Disciplina eliminada correctamente'], 200);
 
     }
+
+    public function deleteSelectDisciplinas(request $request){
+       
+        $aux=explode(',',$request->ids);
+        for($i=0; $i<count($aux); $i++){
+            $disciplina=Disciplina::find($aux[$i]);
+            $disciplina->estado=0;
+            $disciplina->save();
+        }
+        return response()->json(['message'=>'Las disciplinas se eliminaron exitosamente'],200);
+
+    }
 }

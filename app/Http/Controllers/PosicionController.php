@@ -34,7 +34,7 @@ class PosicionController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
         $posicion = Posicion::find($id);
 
@@ -81,4 +81,18 @@ class PosicionController extends Controller
 
         return response()->json(['message' => 'Posición eliminada correctamente.'], 200);
     }
+
+    
+    public function deleteSelectPosicion(request $request){
+       
+        $aux=explode(',',$request->ids);
+        for($i=0; $i<count($aux); $i++){
+            $posicion=Posicion::find($aux[$i]);
+            $posicion->estado=0;
+            $posicion->save();
+        }
+        return response()->json(['message'=>'Las Posicion se eliminaron exitosamente'],200);
+
+    }
+
 }

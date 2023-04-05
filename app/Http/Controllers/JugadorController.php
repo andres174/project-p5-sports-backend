@@ -130,4 +130,16 @@ class JugadorController extends Controller
         $jugador->save();
         return response()->json(['message' => 'Foto del jugador actualizada'], 201);
     }
+
+    public function deleteSelectJugador(request $request){
+       
+        $aux=explode(',',$request->ids);
+        for($i=0; $i<count($aux); $i++){
+            $jugador=jugador::find($aux[$i]);
+            $jugador->estado=0;
+            $jugador->save();
+        }
+        return response()->json(['message'=>'Las jugador se eliminaron exitosamente'],200);
+
+    }
 }

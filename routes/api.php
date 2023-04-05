@@ -44,11 +44,11 @@ Route::resource('accion_jugador', AccionJugadorController::class);
 //jugadores
 Route::resource('jugadores', JugadorController::class);
 Route::post('edit-foto-jugador/{id}', [JugadorController::class, 'editarFotoJugador']);
-Route::post('deleteSelectJugador', [DisciplinaController::class, 'deleteSelectJugador']);
+Route::post('deleteSelectjugador', [JugadorController::class, 'deleteSelectJugador']);
 
 // Posiciones
 Route::apiResource('posiciones', PosicionController::class);
-Route::post('deleteSelectposicion', [DisciplinaController::class, 'deleteSelectPosicion']);
+Route::post('deleteSelectposicion', [PosicionController::class, 'deleteSelectPosicion']);
 
 // Usuarios
 Route::apiResource('usuarios', UsuarioController::class);

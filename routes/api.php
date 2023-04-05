@@ -56,6 +56,7 @@ Route::get('organizadores', [UsuarioController::class, 'getOrganizadores']);
 Route::post('edit-email-usuario/{id}', [UsuarioController::class, 'editarEmailUsuario']);
 Route::post('edit-password-usuario/{id}', [UsuarioController::class, 'editarPasswordUsuario']);
 Route::post('edit-foto-usuario/{id}', [UsuarioController::class, 'editarFotoUsuario']);
+Route::post('deleteSelectedUsuarios', [UsuarioController::class, 'eliminarUsuarios']);
 
 
 //las que van con token

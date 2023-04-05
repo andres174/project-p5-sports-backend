@@ -173,4 +173,15 @@ class UsuarioController extends Controller
 
         return response()->json(['message' => 'Foto de perfil actualizada'], 200);
     }
+
+    public function eliminarUsuarios(Request $request)
+    {
+        $validatedData = $request->validate([
+            'ids' => 'required|array'
+        ]);
+
+        Usuario::whereIn('id', $validatedData['ids'])->update(['estado' => 0]);
+
+        return response()->json(['message' => 'Usuarios eliminados'], 200);
+    }
 }

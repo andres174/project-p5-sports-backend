@@ -59,6 +59,12 @@ Route::post('edit-foto-usuario/{id}', [UsuarioController::class, 'editarFotoUsua
 Route::post('deleteSelectedUsuarios', [UsuarioController::class, 'eliminarUsuarios']);
 
 
+//  Grupos
+Route::get('get-all-eventos', [GrupoController::class, 'getAllEventos']);
+Route::get('get-all-eventos-discplinas', [GrupoController::class, 'getAllEventoDisciplinas']);
+
+
+
 //las que van con token
 Route::middleware('auth:sanctum')->group(function () {
 

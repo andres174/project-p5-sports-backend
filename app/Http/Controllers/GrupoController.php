@@ -28,25 +28,19 @@ class GrupoController extends Controller
         //
     }
 
-    /**
-     * Display the specified resource.
-     */
+    
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+    
     public function edit($id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+    
     public function update(Request $request, $id)
     {
         //
@@ -66,7 +60,7 @@ class GrupoController extends Controller
 
         $req_validada = $request->validate([
             'id_evento_disciplina' => 'required',
-            'equipos' => 'required' //aqui va un array con los equipos de esa disciplina
+            'equipos' => 'required' //aqui va un array con los equipos de esa disciplina ||| Aunque esto puede cambiar
         ]);
 
         $equipos_miembros = explode(',', $req_validada['equipos']); //se descomponen los equipos en un array funcional
@@ -213,6 +207,53 @@ class GrupoController extends Controller
         //devolver los grupos antes de crearlos como tal en la base de datos
 
     }
+    
+
+
+
+
+
+
+    ##########
+    /* 
+    
+    CONSULTAS
+
+    */
+    ##########
+
+    #   Trae los eventos sin discipplina
+    public function getAllEventos(){
+
+        $eventos = DB::table('eventos')
+        ->join('usuarios', 'eventos.id_organizador', '=', 'usuarios.id' )
+        ->select('eventos.*', 'usuarios.nombre', 'usuarios.apellido', 'usuarios.email')
+        ->where('eventos.estado', 1)
+        -> get();
+
+        return response()->json($eventos, 200);
+
+    }
+
+    public function getAllEventoDisciplinas(){
+
+        $evento_disciplina = DB::table('evento_disciplinas')
+        ->join('eventos', 'evento_disciplinas.id_evento', '=', 'eventos.id')
+        ->join('usuarios', 'eventos.id_organizador', '=', 'usuarios.id' )
+        ->join('disciplinas', 'evento_disciplinas.id_disciplina', '=', 'disciplinas.id')
+        ->join('configuracions', 'evento_disciplinas.id_configuracion', '=', 'configuracions.id')
+        ->select('evento_disciplinas.id as id_evento_disciplina', /* 'evento_disciplinas.*', */
+        'eventos.nombre as nombre_evento', 'eventos.imagen', 'eventos.fecha_inicio', 'eventos.fecha_fin', 'usuarios.nombre as nombre_organizador', 'usuarios.apellido as apellido_organizador', 'usuarios.email', //evento y organizador
+        'disciplinas.nombre as disciplina', //disciplinas
+        'configuracions.nombre as nombre_configuracion', 'configuracions.numero_grupos', 'configuracions.numero_miembros', 'configuracions.minutos_juego', 'configuracions.minutos_entre_partidos', 'configuracions.tarjetas', 'configuracions.ida_y_vuelta', 'configuracions.id_organizador as config_owner', //configuracion
+        
+        )
+        ->where('evento_disciplinas.estado', 1)
+        ->get();
+
+        return response()->json($evento_disciplina, 200);
+    }
+    
 
 
 }

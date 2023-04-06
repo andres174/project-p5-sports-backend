@@ -235,6 +235,7 @@ class GrupoController extends Controller
 
     }
 
+    # Trae evento disciplinas ocn toda la informacion necesaria
     public function getAllEventoDisciplinas(){
 
         $evento_disciplina = DB::table('evento_disciplinas')
@@ -252,6 +253,33 @@ class GrupoController extends Controller
         ->get();
 
         return response()->json($evento_disciplina, 200);
+    }
+
+    #falta termianr de agregar los datos
+
+    public function getAllEquipoDisciplinas(){
+
+        $equipo_disciplinas = DB::table('equipo_disciplinas')
+        ->join('equipos', 'equipo_disciplinas.id_equipo', '=', 'equipos.id')
+        ->join('evento_disciplinas', 'equipo_disciplinas.id_evento_disciplina', '=', 'evento_disciplinas.id')
+        ->join('eventos', 'evento_disciplinas.id_evento', '=', 'eventos.id')
+        ->join('disciplinas', 'evento_disciplinas.id_disciplina', '=', 'disciplinas.id')
+        ->select('equipo_disciplinas.id',
+        'equipos.nombre as nombre_equipo', 'equipos.logo', //equipos
+        /* 'evento_disciplinas.*', */ //evento_disciplinas
+        'eventos.nombre as nombre_evento', /* 'eventos.imagen', 'eventos.fecha_inicio', 'eventos.fecha_fin', 'usuarios.nombre as nombre_organizador', 'usuarios.apellido as apellido_organizador', 'usuarios.email', */ //evento y organizador
+        'disciplinas.nombre as disciplina', //disciplinas
+
+        )
+        ->where('equipo_disciplinas.estado', 1)
+        ->get();
+
+        return response()->json($equipo_disciplinas, 200);
+
+    }
+
+    public function getEquiposFormOneDisciplina($id){
+        
     }
     
 

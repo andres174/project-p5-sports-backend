@@ -62,6 +62,7 @@ Route::post('deleteSelectedUsuarios', [UsuarioController::class, 'eliminarUsuari
 //  Grupos
 Route::get('get-all-eventos', [GrupoController::class, 'getAllEventos']);
 Route::get('get-all-eventos-discplinas', [GrupoController::class, 'getAllEventoDisciplinas']);
+Route::get('get-one-eventos-discplinas/{id}', [GrupoController::class, 'getOneEventoDisciplina']);
 Route::get('get-all-equipos-discplinas', [GrupoController::class, 'getAllEquipoDisciplinas']);
 Route::get('get-equipos-discplinas/{id}', [GrupoController::class, 'getEquiposFormOneDisciplina']);
 

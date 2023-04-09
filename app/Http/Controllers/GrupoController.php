@@ -227,7 +227,7 @@ class GrupoController extends Controller
 
         $eventos = DB::table('eventos')
         ->join('usuarios', 'eventos.id_organizador', '=', 'usuarios.id' )
-        ->select('eventos.*', 'usuarios.nombre', 'usuarios.apellido', 'usuarios.email')
+        ->select('eventos.*', 'usuarios.nombre as nombre_org', 'usuarios.apellido as apellido_org', 'usuarios.email')
         ->where('eventos.estado', 1)
         -> get();
 
@@ -250,6 +250,26 @@ class GrupoController extends Controller
         
         )
         ->where('evento_disciplinas.estado', 1)
+        ->get();
+
+        return response()->json($evento_disciplina, 200);
+    }
+
+    public function getOneEventoDisciplina($id_evento){
+
+        $evento_disciplina = DB::table('evento_disciplinas')
+        ->join('eventos', 'evento_disciplinas.id_evento', '=', 'eventos.id')
+        ->join('usuarios', 'eventos.id_organizador', '=', 'usuarios.id' )
+        ->join('disciplinas', 'evento_disciplinas.id_disciplina', '=', 'disciplinas.id')
+        ->join('configuracions', 'evento_disciplinas.id_configuracion', '=', 'configuracions.id')
+        ->select('evento_disciplinas.id as id_evento_disciplina', /* 'evento_disciplinas.*', */
+        'eventos.nombre as nombre_evento', 'eventos.imagen', 'eventos.fecha_inicio', 'eventos.fecha_fin', 'usuarios.nombre as nombre_organizador', 'usuarios.apellido as apellido_organizador', 'usuarios.email', //evento y organizador
+        'disciplinas.nombre as disciplina', //disciplinas
+        'configuracions.nombre as nombre_configuracion', 'configuracions.numero_grupos', 'configuracions.numero_miembros', 'configuracions.minutos_juego', 'configuracions.minutos_entre_partidos', 'configuracions.tarjetas', 'configuracions.ida_y_vuelta', 'configuracions.id_organizador as config_owner', //configuracion
+        
+        )
+        ->where('evento_disciplinas.estado', 1)
+        ->where('evento_disciplinas.id_evento', $id_evento)
         ->get();
 
         return response()->json($evento_disciplina, 200);
@@ -279,7 +299,7 @@ class GrupoController extends Controller
     }
 
     #   Entra el id_evento_disciplina
-    public function getEquiposFormOneDisciplina($id){
+    public function getEquiposFormOneDisciplina($id_evento_disciplina){
         $equipo_disciplinas = DB::table('equipo_disciplinas')
         ->join('equipos', 'equipo_disciplinas.id_equipo', '=', 'equipos.id')
         ->join('evento_disciplinas', 'equipo_disciplinas.id_evento_disciplina', '=', 'evento_disciplinas.id')
@@ -293,7 +313,7 @@ class GrupoController extends Controller
 
         )
         ->where('equipo_disciplinas.estado', 1)
-        ->where('equipo_disciplinas.id_evento_disciplina', $id)
+        ->where('equipo_disciplinas.id_evento_disciplina', $id_evento_disciplina)
         ->get();
 
         return response()->json($equipo_disciplinas, 200);

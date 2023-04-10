@@ -16,6 +16,7 @@ use App\Http\Controllers\PosicionController;
 use App\Http\Controllers\GrupoController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\EventoController;
+use App\Http\Controllers\EventoDisciplinaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,6 +45,10 @@ Route::post('deleteSelectDisciplina', [DisciplinaController::class, 'deleteSelec
 Route::resource('Evento', EventoController::class);
 Route::post('edit-imagen-evento/{id}', [EventoController::class, 'EditarImagenEvento']);
 Route::post('deleteSelectEvento', [EventoController::class, 'deleteSelectEvento']);
+
+//Evento diciplina
+Route::resource('EventoDisciplina', EventoDisciplinaController::class);
+Route::get('mostrar-eventos-discplinas', [EventoDisciplinaController::class, 'MostrarEventoDisciplinas']);
 
 // Accion Jugador 
 Route::resource('accion_jugador', AccionJugadorController::class);

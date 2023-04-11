@@ -44,7 +44,7 @@ Route::post('deleteSelectDisciplina', [DisciplinaController::class, 'deleteSelec
 //Evento
 Route::resource('Evento', EventoController::class);
 Route::post('edit-imagen-evento/{id}', [EventoController::class, 'EditarImagenEvento']);
-Route::post('deleteSelectEvento', [EventoController::class, 'deleteSelectEvento']);
+Route::post('deleteselectevento', [EventoController::class, 'deleteSelectEvento']);
 
 //Evento diciplina
 Route::resource('EventoDisciplina', EventoDisciplinaController::class);

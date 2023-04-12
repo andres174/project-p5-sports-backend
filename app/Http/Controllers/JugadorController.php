@@ -54,7 +54,7 @@ class JugadorController extends Controller
 
         $request->file('foto')->storeAs("public/foto/jugador/{$jugador->id}", $valiData['foto']);
 
-        return response()->json(['message'=>'Jugador registrado'],200);
+        return response()->json(['message'=>'Jugador registrado Con exito'],200);
     }
 
     /**
@@ -97,7 +97,7 @@ class JugadorController extends Controller
         $jugador->apellido = $validateData['apellido'];
         $jugador->cedula = $validateData['cedula'];
         $jugador->save();
-        return response()->json(['message' => 'Jugador actualizado'], 200);
+        return response()->json(['message' => 'Jugador actualizado exitosamente...'], 200);
     }
 
     /**
@@ -111,7 +111,7 @@ class JugadorController extends Controller
         }
         $jugador->estado=0;
         $jugador->save();
-        return response()->json(['message'=>'jugador eliminado']);
+        return response()->json(['message'=>'jugador eliminado correctamente...']);
     }
 
     public function editarFotoJugador(Request $request, $id ){
@@ -139,7 +139,7 @@ class JugadorController extends Controller
             $jugador->estado=0;
             $jugador->save();
         }
-        return response()->json(['message'=>'Las jugador se eliminaron exitosamente'],200);
+        return response()->json(['message'=>'Las jugador se eliminaron exitosamente...'],200);
 
     }
 }

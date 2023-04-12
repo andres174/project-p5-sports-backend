@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Equipo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 class EquipoController extends Controller
 {
@@ -12,6 +13,8 @@ class EquipoController extends Controller
      */
     public function index()
     {
+        $equipo = equipo::where('estado',1)->get();
+        return response()->json($equipo, 200);
         //
     }
 
@@ -28,7 +31,24 @@ class EquipoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
+        $validateData=$request->validate([
+            'nombre'=>'required|string|max:255',
+        ]);
+        //imagen
+        $img = $request->file('logo');
+        $valiData['logo'] =  time().'.'.$img->getClientOriginalExtension();
+
+
+        $equipo=equipo::create([
+            'nombre'=>$validateData['nombre'],
+            'logo'=>$valiData['logo'],
+            'estado'=>1,
+        ]);
+
+        $request->file('logo')->storeAs("public/logo/equipo/{$equipo->id}", $valiData['logo']);
+
+        return response()->json(['message'=>'Equipo registrado Con exito'],200);
     }
 
     /**

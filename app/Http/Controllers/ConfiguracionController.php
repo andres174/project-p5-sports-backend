@@ -140,4 +140,5 @@ class ConfiguracionController extends Controller
         return response()->json(['message'=>'Las configuraciones se eliminaron exitosamente'],200);
 
     }
+    
 }

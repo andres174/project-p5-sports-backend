@@ -17,6 +17,7 @@ use App\Http\Controllers\GrupoController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\EventoController;
 use App\Http\Controllers\EventoDisciplinaController;
+use App\Http\Controllers\EquipoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,7 +45,7 @@ Route::post('deleteSelectDisciplina', [DisciplinaController::class, 'deleteSelec
 //Evento
 Route::resource('Evento', EventoController::class);
 Route::post('edit-imagen-evento/{id}', [EventoController::class, 'EditarImagenEvento']);
-Route::post('deleteSelectEvento', [EventoController::class, 'deleteSelectEvento']);
+Route::post('deleteselectevento', [EventoController::class, 'deleteSelectEvento']);
 
 //Evento diciplina
 Route::resource('EventoDisciplina', EventoDisciplinaController::class);
@@ -52,6 +53,9 @@ Route::get('mostrar-eventos-discplinas', [EventoDisciplinaController::class, 'Mo
 
 // Accion Jugador 
 Route::resource('accion_jugador', AccionJugadorController::class);
+
+  //equipo
+  Route::resource('equipo', EquipoController::class);
 
 //jugadores
 Route::resource('jugadores', JugadorController::class);
@@ -84,6 +88,10 @@ Route::get('get-config-eventos-discplina/{id}', [GrupoController::class, 'getCon
 //las que van con token
 Route::middleware('auth:sanctum')->group(function () {
 
+
+ 
+
+   
 
 });
 

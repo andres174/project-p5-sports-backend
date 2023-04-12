@@ -17,6 +17,7 @@ use App\Http\Controllers\GrupoController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\EventoController;
 use App\Http\Controllers\EventoDisciplinaController;
+use App\Http\Controllers\EquipoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,6 +54,9 @@ Route::get('mostrar-eventos-discplinas', [EventoDisciplinaController::class, 'Mo
 // Accion Jugador 
 Route::resource('accion_jugador', AccionJugadorController::class);
 
+  //equipo
+  Route::resource('equipo', EquipoController::class);
+
 //jugadores
 Route::resource('jugadores', JugadorController::class);
 Route::post('edit-foto-jugador/{id}', [JugadorController::class, 'editarFotoJugador']);
@@ -83,6 +87,10 @@ Route::get('get-equipos-discplinas/{id}', [GrupoController::class, 'getEquiposFo
 //las que van con token
 Route::middleware('auth:sanctum')->group(function () {
 
+
+ 
+
+   
 
 });
 

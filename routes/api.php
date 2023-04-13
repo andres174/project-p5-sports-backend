@@ -18,6 +18,7 @@ use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\EventoController;
 use App\Http\Controllers\EventoDisciplinaController;
 use App\Http\Controllers\EquipoController;
+use App\Http\Controllers\ResultadoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -61,6 +62,11 @@ Route::resource('accion_jugador', AccionJugadorController::class);
 Route::resource('jugadores', JugadorController::class);
 Route::post('edit-foto-jugador/{id}', [JugadorController::class, 'editarFotoJugador']);
 Route::post('deleteSelectjugador', [JugadorController::class, 'deleteSelectJugador']);
+
+//Resultado
+Route::post('deleteselectresultados', [ResultadoController::class, 'deleteSelectResultados']);
+Route::post('tablaposicion', [ResultadoController::class, 'tablePosition']);
+Route::resource('resultado', ResultadoController::class);
 
 // Posiciones
 Route::apiResource('posiciones', PosicionController::class);

@@ -55,8 +55,10 @@ Route::get('mostrar-eventos-discplinas', [EventoDisciplinaController::class, 'Mo
 // Accion Jugador 
 Route::resource('accion_jugador', AccionJugadorController::class);
 
-  //equipo
-  Route::resource('equipo', EquipoController::class);
+//equipo
+Route::apiResource('equipos', EquipoController::class);
+Route::post('edit-logo-equipo/{id}', [EquipoController::class, 'editarLogoEquipo']);
+Route::post('delete-selected-equipos', [EquipoController::class, 'deleteSelectedEquipos']);
 
 //jugadores
 Route::resource('jugadores', JugadorController::class);
@@ -78,7 +80,7 @@ Route::get('organizadores', [UsuarioController::class, 'getOrganizadores']);
 Route::post('edit-email-usuario/{id}', [UsuarioController::class, 'editarEmailUsuario']);
 Route::post('edit-password-usuario/{id}', [UsuarioController::class, 'editarPasswordUsuario']);
 Route::post('edit-foto-usuario/{id}', [UsuarioController::class, 'editarFotoUsuario']);
-Route::post('deleteSelectedUsuarios', [UsuarioController::class, 'eliminarUsuarios']);
+Route::post('delete-selected-usuarios', [UsuarioController::class, 'eliminarUsuarios']);
 
 
 //  Grupos
@@ -87,17 +89,12 @@ Route::get('get-all-eventos-discplinas', [GrupoController::class, 'getAllEventoD
 Route::get('get-one-eventos-discplinas/{id}', [GrupoController::class, 'getOneEventoDisciplina']);
 Route::get('get-all-equipos-discplinas', [GrupoController::class, 'getAllEquipoDisciplinas']);
 Route::get('get-equipos-discplinas/{id}', [GrupoController::class, 'getEquiposFormOneDisciplina']);
+Route::get('get-config-eventos-discplina/{id}', [GrupoController::class, 'getConfiguracionFromEventoDisciplina']);
 
 
 
 //las que van con token
 Route::middleware('auth:sanctum')->group(function () {
-
-
- 
-
-   
-
 });
 
 
@@ -114,4 +111,3 @@ Route::middleware('auth:sanctum')->group(function () {
 # ******************************************
 
 Route::get('getConfiguracionGrupo', [GrupoController::class, 'getConfiguracion']);
-

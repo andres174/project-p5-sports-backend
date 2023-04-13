@@ -319,6 +319,7 @@ class GrupoController extends Controller
         return response()->json($equipo_disciplinas, 200);
     }
 
+    #   Cargo la configuración del evento seleccionado
     public function getConfiguracionFromEventoDisciplina($id_evento_disciplina){
         $config = DB::table('evento_disciplinas')
         ->join('configuracions','evento_disciplinas.id_configuracion','=','configuracions.id')

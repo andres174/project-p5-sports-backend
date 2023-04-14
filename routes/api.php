@@ -15,6 +15,7 @@ use App\Http\Controllers\DisciplinaController;
 use App\Http\Controllers\PosicionController;
 use App\Http\Controllers\GrupoController;
 use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\PartidoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -66,6 +67,9 @@ Route::get('get-one-eventos-discplinas/{id}', [GrupoController::class, 'getOneEv
 Route::get('get-all-equipos-discplinas', [GrupoController::class, 'getAllEquipoDisciplinas']);
 Route::get('get-equipos-discplinas/{id}', [GrupoController::class, 'getEquiposFormOneDisciplina']);
 
+
+//Partidos
+Route::get('pruebaHora/{id}', [PartidoController::class, 'crearPartidos']);
 
 
 //las que van con token

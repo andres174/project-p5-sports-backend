@@ -67,7 +67,7 @@ Route::post('deleteSelectjugador', [JugadorController::class, 'deleteSelectJugad
 
 //Resultado
 Route::post('deleteselectresultados', [ResultadoController::class, 'deleteSelectResultados']);
-Route::post('tablaposicion', [ResultadoController::class, 'tablePosition']);
+Route::get('tablaposicion/{id}', [ResultadoController::class, 'tablePosition']);
 Route::resource('resultado', ResultadoController::class);
 
 // Posiciones

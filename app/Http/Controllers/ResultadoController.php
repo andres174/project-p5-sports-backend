@@ -146,22 +146,21 @@ class ResultadoController extends Controller
 
    
 
-
-
+/* Metodo para la tabla de pociciones */
     public function tablePosition($id)
     {
         $query = DB::table('grupos')
         ->join('partidos', 'grupos.id', '=', 'partidos.id_grupo')
         ->join('resultados', 'partidos.id', '=', 'resultados.id_partido')
-        ->where('groups.id', $id)
-        ->where('grupos.estado', true)
-        ->where('partidos.estado', true)
-        ->where('resultados.estado', true)
+        ->where('grupos.id', $id)
+        ->where('grupos.estado', 1)
+        ->where('partidos.isPlay', 1)
+        ->where('resultados.estado', 1)
         ->select('resultados.id_equipo_disciplina')
         ->get();
 
         $ids_equipo_disciplina = [];
-        $team = [];
+        $Equipos = [];
         $Pts = [];
         $PJ = [];
         $G = [];
@@ -181,39 +180,39 @@ class ResultadoController extends Controller
 
         foreach ($ids_equipo_disciplina as $k => $v) {
 
-            $team[$k] = DB::table('equipo_disciplinas')
+            $Equipos[$k] = DB::table('equipo_disciplinas')
                 ->join('equipos', 'equipo_disciplinas.id_equipo', '=', 'equipos.id')
                 ->where('equipo_disciplinas.id', $ids_equipo_disciplina[$k])
                 ->first();
 
-            $Pts[$k] = Results::where('id_equipo_disciplina', $v)->sum('puntos');
-            $PJ[$k] = Results::where('id_equipo_disciplina', $v)->count();
+            $Pts[$k] = Resultado::where('id_equipo_disciplina', $v)->sum('puntos');
+            $PJ[$k] = Resultado::where('id_equipo_disciplina', $v)->count();
 
-            $E[$k] = Results::where('id_equipo_disciplina', $v)
+            $E[$k] = Resultado::where('id_equipo_disciplina', $v)
                 ->where('puntos', 1)
                 ->count();
-            $P[$k] = Results::where('id_equipo_disciplina', $v)
+            $P[$k] = Resultado::where('id_equipo_disciplina', $v)
                 ->where('puntos', 0)
                 ->count();
-            $G[$k] = Results::where('id_equipo_disciplina', $v)
+            $G[$k] = Resultado::where('id_equipo_disciplina', $v)
                 ->where('puntos', 3)
                 ->count();
 
-            $GF[$k] = Results::where('id_equipo_disciplina', $v)->sum('goles_favor');
-            $GC[$k] = Results::where('id_equipo_disciplina', $v)->sum('goles_contra');
+            $GF[$k] = Resultado::where('id_equipo_disciplina', $v)->sum('goles_favor');
+            $GC[$k] = Resultado::where('id_equipo_disciplina', $v)->sum('goles_contra');
             $GD[$k] = $GF[$k] - $GC[$k];
 
             array_push(
                 $data,
                 [
-                    'team' => $team[$k],
+                    'Equipos' => $Equipos[$k],
                     'Pts' => $Pts[$k],
                     'PJ' => $PJ[$k],
                     'G' => $G[$k],
                     'E' => $E[$k],
                     'P' => $P[$k],
                     'GF' => $GF[$k],
-                    'GE' => $GE[$k],
+                    'GC' => $GC[$k],
                     'GD' => $GD[$k]
                 ]
             );

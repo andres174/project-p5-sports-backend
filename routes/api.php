@@ -16,6 +16,10 @@ use App\Http\Controllers\PosicionController;
 use App\Http\Controllers\GrupoController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\PartidoController;
+use App\Http\Controllers\EventoController;
+use App\Http\Controllers\EventoDisciplinaController;
+use App\Http\Controllers\EquipoController;
+use App\Http\Controllers\ResultadoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,13 +43,33 @@ Route::post('deleteSelectConfiguracion', [ConfiguracionController::class, 'delet
 //disciplinas
 Route::resource('disciplinas', DisciplinaController::class);
 Route::post('deleteSelectDisciplina', [DisciplinaController::class, 'deleteSelectDisciplinas']);
+
+//Evento
+Route::resource('Evento', EventoController::class);
+Route::post('edit-imagen-evento/{id}', [EventoController::class, 'EditarImagenEvento']);
+Route::post('deleteselectevento', [EventoController::class, 'deleteSelectEvento']);
+
+//Evento diciplina
+Route::resource('EventoDisciplina', EventoDisciplinaController::class);
+Route::get('mostrar-eventos-discplinas', [EventoDisciplinaController::class, 'MostrarEventoDisciplinas']);
+
 // Accion Jugador 
 Route::resource('accion_jugador', AccionJugadorController::class);
+
+//equipo
+Route::apiResource('equipos', EquipoController::class);
+Route::post('edit-logo-equipo/{id}', [EquipoController::class, 'editarLogoEquipo']);
+Route::post('delete-selected-equipos', [EquipoController::class, 'deleteSelectedEquipos']);
 
 //jugadores
 Route::resource('jugadores', JugadorController::class);
 Route::post('edit-foto-jugador/{id}', [JugadorController::class, 'editarFotoJugador']);
 Route::post('deleteSelectjugador', [JugadorController::class, 'deleteSelectJugador']);
+
+//Resultado
+Route::post('deleteselectresultados', [ResultadoController::class, 'deleteSelectResultados']);
+Route::get('tablaposicion/{id}', [ResultadoController::class, 'tablePosition']);
+Route::resource('resultado', ResultadoController::class);
 
 // Posiciones
 Route::apiResource('posiciones', PosicionController::class);
@@ -57,7 +81,7 @@ Route::get('organizadores', [UsuarioController::class, 'getOrganizadores']);
 Route::post('edit-email-usuario/{id}', [UsuarioController::class, 'editarEmailUsuario']);
 Route::post('edit-password-usuario/{id}', [UsuarioController::class, 'editarPasswordUsuario']);
 Route::post('edit-foto-usuario/{id}', [UsuarioController::class, 'editarFotoUsuario']);
-Route::post('deleteSelectedUsuarios', [UsuarioController::class, 'eliminarUsuarios']);
+Route::post('delete-selected-usuarios', [UsuarioController::class, 'eliminarUsuarios']);
 
 
 //  Grupos
@@ -66,6 +90,7 @@ Route::get('get-all-eventos-discplinas', [GrupoController::class, 'getAllEventoD
 Route::get('get-one-eventos-discplinas/{id}', [GrupoController::class, 'getOneEventoDisciplina']);
 Route::get('get-all-equipos-discplinas', [GrupoController::class, 'getAllEquipoDisciplinas']);
 Route::get('get-equipos-discplinas/{id}', [GrupoController::class, 'getEquiposFormOneDisciplina']);
+Route::get('get-config-eventos-discplina/{id}', [GrupoController::class, 'getConfiguracionFromEventoDisciplina']);
 
 
 //Partidos
@@ -74,8 +99,6 @@ Route::get('pruebaHora/{id}', [PartidoController::class, 'crearPartidos']);
 
 //las que van con token
 Route::middleware('auth:sanctum')->group(function () {
-
-
 });
 
 
@@ -92,4 +115,3 @@ Route::middleware('auth:sanctum')->group(function () {
 # ******************************************
 
 Route::get('getConfiguracionGrupo', [GrupoController::class, 'getConfiguracion']);
-

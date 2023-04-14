@@ -90,10 +90,19 @@ class UsuarioController extends Controller
         $validatedData = $request->validate([
             'nombre' => 'required|string|min:2|max:255',
             'apellido' => 'required|string|min:2|max:255',
-            // 'email' => 'nullable|string|email|max:255',
-            // 'password' => 'nullable|string|min:8|max:255',
+            'email' => 'nullable|string|email|max:255',
+            'password' => 'nullable|string|min:8|max:255',
             // 'id_tipo_usuario' => 'nullable|integer'
         ]);
+
+        // Si es null, eliminarlo del array
+        if (empty($validatedData['email'])) unset($validatedData['email']);
+
+        if (empty($validatedData['password'])) {
+            unset($validatedData['password']);
+        } else {
+            $validatedData['password'] = Hash::make($validatedData['password']);
+        }
 
         $user->fill($validatedData);
         $user->save();

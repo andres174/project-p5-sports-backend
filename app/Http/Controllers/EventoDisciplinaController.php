@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\EventoDisciplina;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class EventoDisciplinaController extends Controller
 {
@@ -50,16 +51,40 @@ class EventoDisciplinaController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, EventoDisciplina $eventoDisciplina)
+    public function update(Request $request, $id)
     {
-        //
+       //
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(EventoDisciplina $eventoDisciplina)
+    public function destroy($id)
     {
         //
+    }
+
+
+
+    public function MostrarEventoDisciplinas(){
+
+        $EventoDisciplina = DB::table('evento_disciplinas')
+        ->join('eventos', 'evento_disciplinas.id_evento', '=', 'eventos.id')
+        ->join('disciplinas', 'evento_disciplinas.id_disciplina', '=', 'disciplinas.id')
+        ->join('configuracions', 'evento_disciplinas.id_configuracion', '=', 'configuracions.id')
+        ->select('evento_disciplinas.id as id_evento_disciplina', /* 'evento_disciplinas.*', */
+        'eventos.nombre as nombre_evento', 'eventos.imagen', 'eventos.fecha_inicio'
+        , 'eventos.fecha_fin', //evento 
+        'disciplinas.nombre as disciplina', //disciplinas
+        'configuracions.nombre as nombre_configuracion', 'configuracions.numero_grupos'
+        , 'configuracions.numero_miembros', 'configuracions.minutos_juego'
+        , 'configuracions.minutos_entre_partidos', 'configuracions.tarjetas'
+        , 'configuracions.ida_y_vuelta', 'configuracions.id_organizador as user_config', //configuracion
+        
+        )
+        ->where('evento_disciplinas.estado', 1)
+        ->get();
+
+        return response()->json($EventoDisciplina, 200);
     }
 }

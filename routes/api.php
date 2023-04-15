@@ -91,7 +91,7 @@ Route::get('get-one-eventos-discplinas/{id}', [GrupoController::class, 'getOneEv
 Route::get('get-all-equipos-discplinas', [GrupoController::class, 'getAllEquipoDisciplinas']);
 Route::get('get-equipos-discplinas/{id}', [GrupoController::class, 'getEquiposFormOneDisciplina']);
 Route::get('get-config-eventos-discplina/{id}', [GrupoController::class, 'getConfiguracionFromEventoDisciplina']);
-
+Route::post('generar-grupos-auto', [GrupoController::class, 'guardarGruposGenerados']);
 
 //Partidos
 Route::get('pruebaHora/{id}', [PartidoController::class, 'crearPartidos']);

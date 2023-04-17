@@ -35,25 +35,26 @@ class EventoController extends Controller
     {
         $validateData=$request->validate([
             'nombre'=>'required|string|max:255',
-            'imagen' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'imagen' => 'required|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'fecha_inicio'=>'required|date',
             'fecha_fin'=>'required|date',
             'id_organizador' =>'required',
 
         ]);
         //imagen
-            $img = $request->file('imagen');
-            $validatedData['imagen'] = time() . '.' . $img->getClientOriginalExtension();
+        $img = $request->file('imagen');
+        $valiData['imagen'] =  time().'.'.$img->getClientOriginalExtension();
         $evento = Evento::create([
             'nombre'=>$validateData['nombre'],
-            'imagen'=>$validateData['imagen'],
+            'imagen'=>$valiData['imagen'],
             'fecha_inicio'=>$validateData['fecha_inicio'],
             'fecha_fin'=>$validateData['fecha_fin'],
             'id_organizador'=>$validateData['id_organizador'],
             'estado'=>1,
         ]);
-            $img->storeAs("public/foto/evento/{$evento->id}", $validateData['imagen']);
+        $request->file('imagen')->storeAs("public/imagen/evento/{$evento->id}", $valiData['imagen']);
         return response()->json(['message'=>'Evento registrado'],200);
+      // return response()->json($request,200);
     }
 
     /**

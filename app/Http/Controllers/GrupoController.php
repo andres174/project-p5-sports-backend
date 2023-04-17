@@ -306,7 +306,7 @@ class GrupoController extends Controller
         ->join('eventos', 'evento_disciplinas.id_evento', '=', 'eventos.id')
         ->join('disciplinas', 'evento_disciplinas.id_disciplina', '=', 'disciplinas.id')
         ->select('equipo_disciplinas.id',
-        'equipos.nombre as nombre_equipo', 'equipos.logo', //equipos
+        'equipos.id as id_equipo', 'equipos.nombre as nombre_equipo', 'equipos.logo', //equipos
         /* 'evento_disciplinas.*', */ //evento_disciplinas
         'eventos.nombre as nombre_evento', /* 'eventos.imagen', 'eventos.fecha_inicio', 'eventos.fecha_fin', 'usuarios.nombre as nombre_organizador', 'usuarios.apellido as apellido_organizador', 'usuarios.email', */ //evento y organizador
         'disciplinas.nombre as disciplina', //disciplinas

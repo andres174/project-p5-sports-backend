@@ -19,7 +19,8 @@ class PartidoController extends Controller
      */
     public function index()
     {
-        //
+        $partidos=Partido::where('isPlay',1)->get();
+        return response()->json($partidos);
     }
 
     /**
@@ -35,15 +36,40 @@ class PartidoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validateData=$request->validate([
+            'equipo1'   =>'required|integer',
+            'equipo2'   =>'required|integer',
+            'fecha_hora'=>'required',
+            'lugar'     =>'required',
+            'lat'       =>'required|double',
+            'lng'       =>'required|double',
+            'id_grupo'  =>'required'
+        ]);
+        $partido=Partido::create([
+            'equipo1'   =>$validateData('equipo1'),
+            'equipo2'   =>$validateData('equipo2'),  
+            'fecha_hora'=>$validateData('fecha_hora'),
+            'lugar'     =>$validateData('lugar'),
+            'lat'       =>$validateData('lat'),
+            'lng'       =>$validateData('lng'),
+            'id_grupo'  =>$validateData('id_grupo'),
+            'isPlay'    =>1
+        ]);
+
+        return response()->json(['message'=>'El partido se registro exitosamente'],200);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Partido $partido)
+    public function show( $id)
     {
-        //
+        $partidos=Partido::find($id);
+        if (is_null($partido)) {
+            return response()->json(['message'=>'El partido no fue encontrado'],400);
+        }
+        return response()->json($partido,200);
+
     }
 
     /**
@@ -67,7 +93,12 @@ class PartidoController extends Controller
      */
     public function destroy(Partido $partido)
     {
-        //
+        // $partidos=Partido::find($id);
+        // if (is_null($partido)) {
+        //     return response()->json(['message'=>'El partido no fue encontrado'],400);
+        // }
+        // return response()->json($partido,200);
+
     }
 
     public function crearPartidos($id){

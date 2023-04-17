@@ -52,7 +52,7 @@ class EventoController extends Controller
             'id_organizador'=>$validateData['id_organizador'],
             'estado'=>1,
         ]);
-            $request->file('imagen')->storeAs("public/imagen/evento/{$evento->id}", $validateData['imagen']);
+            $img->storeAs("public/foto/evento/{$evento->id}", $validateData['imagen']);
         return response()->json(['message'=>'Evento registrado'],200);
     }
 

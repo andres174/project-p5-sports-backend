@@ -37,10 +37,12 @@ class EventoController extends Controller
             'nombre'=>'required|string|max:255',
             'imagen' => 'required|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'fecha_inicio'=>'required|date',
-            'fecha_fin'=>'required|date',
+            'fecha_fin'=>'nullable|date',
             'id_organizador' =>'required',
 
         ]);
+
+    
         //imagen
         $img = $request->file('imagen');
         $valiData['imagen'] =  time().'.'.$img->getClientOriginalExtension();
@@ -53,7 +55,7 @@ class EventoController extends Controller
             'estado'=>1,
         ]);
         $request->file('imagen')->storeAs("public/imagen/evento/{$evento->id}", $valiData['imagen']);
-        return response()->json(['message'=>'Evento registrado'],200);
+        return response()->json(['message'=>'Evento registrado'],200); 
       // return response()->json($request,200);
     }
 
@@ -95,7 +97,7 @@ class EventoController extends Controller
         $validateData = $request->validate([
             'nombre'=>'required|string|max:255',
             'fecha_inicio'=>'required|date',
-            'fecha_fin'=>'required|date',
+            'fecha_fin'=>'nullable|date',
             'id_organizador' =>'required',
             
 

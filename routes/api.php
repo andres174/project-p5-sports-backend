@@ -19,6 +19,7 @@ use App\Http\Controllers\PartidoController;
 use App\Http\Controllers\EventoController;
 use App\Http\Controllers\EventoDisciplinaController;
 use App\Http\Controllers\EquipoController;
+use App\Http\Controllers\JugadorEquipoController;
 use App\Http\Controllers\ResultadoController;
 
 /*
@@ -82,6 +83,16 @@ Route::post('edit-email-usuario/{id}', [UsuarioController::class, 'editarEmailUs
 Route::post('edit-password-usuario/{id}', [UsuarioController::class, 'editarPasswordUsuario']);
 Route::post('edit-foto-usuario/{id}', [UsuarioController::class, 'editarFotoUsuario']);
 Route::post('delete-selected-usuarios', [UsuarioController::class, 'eliminarUsuarios']);
+
+// Jugador Equipo
+Route::get(
+  'get-eventos-from-organizador/{id_organizador}',
+  [JugadorEquipoController::class, 'getEventosFromOrganizador']
+);
+Route::get(
+  'get-evento-disciplinas-small-from-evento/{id_evento}',
+  [JugadorEquipoController::class, 'getEventoDisciplinasSmallFromEvento']
+);
 
 
 //  Grupos

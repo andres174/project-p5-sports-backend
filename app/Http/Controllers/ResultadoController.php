@@ -162,13 +162,13 @@ class ResultadoController extends Controller
         $ids_equipo_disciplina = [];
         $Equipos = [];
         $Pts = [];
-        $PJ = [];
-        $G = [];
-        $E = [];
-        $P = [];
-        $GF = [];
-        $GC = [];
-        $GD = [];
+        $pj = [];
+        $g = [];
+        $e = [];
+        $p = [];
+        $gf = [];
+        $gc = [];
+        $gd = [];
         $data = array();
         $aux = [];
 
@@ -186,34 +186,37 @@ class ResultadoController extends Controller
                 ->first();
 
             $Pts[$k] = Resultado::where('id_equipo_disciplina', $v)->sum('puntos');
-            $PJ[$k] = Resultado::where('id_equipo_disciplina', $v)->count();
+            $pj[$k] = Resultado::where('id_equipo_disciplina', $v)->count();
+            
+            $g[$k] = Resultado::where('id_equipo_disciplina', $v)
+            ->where('puntos', 3)
+            ->count();
 
-            $E[$k] = Resultado::where('id_equipo_disciplina', $v)
+            $e[$k] = Resultado::where('id_equipo_disciplina', $v)
                 ->where('puntos', 1)
                 ->count();
-            $P[$k] = Resultado::where('id_equipo_disciplina', $v)
+
+            $p[$k] = Resultado::where('id_equipo_disciplina', $v)
                 ->where('puntos', 0)
                 ->count();
-            $G[$k] = Resultado::where('id_equipo_disciplina', $v)
-                ->where('puntos', 3)
-                ->count();
+           
 
-            $GF[$k] = Resultado::where('id_equipo_disciplina', $v)->sum('goles_favor');
-            $GC[$k] = Resultado::where('id_equipo_disciplina', $v)->sum('goles_contra');
-            $GD[$k] = $GF[$k] - $GC[$k];
+            $gf[$k] = Resultado::where('id_equipo_disciplina', $v)->sum('goles_favor');
+            $gc[$k] = Resultado::where('id_equipo_disciplina', $v)->sum('goles_contra');
+            $gd[$k] = $gf[$k] - $gc[$k];
 
             array_push(
                 $data,
                 [
                     'Equipos' => $Equipos[$k],
                     'Pts' => $Pts[$k],
-                    'PJ' => $PJ[$k],
-                    'G' => $G[$k],
-                    'E' => $E[$k],
-                    'P' => $P[$k],
-                    'GF' => $GF[$k],
-                    'GC' => $GC[$k],
-                    'GD' => $GD[$k]
+                    'pj' => $pj[$k],
+                    'g' => $g[$k],
+                    'e' => $e[$k],
+                    'p' => $p[$k],
+                    'gf' => $gf[$k],
+                    'gc' => $gc[$k],
+                    'gd' => $gd[$k]
                 ]
             );
         }
@@ -245,7 +248,7 @@ class ResultadoController extends Controller
         $longitud = count($arreglo);
         for ($i = 0; $i < $longitud; $i++) {
             for ($j = 0; $j < $longitud - 1; $j++) {
-                if ($arreglo[$j]['GD'] < $arreglo[$j + 1]['GD']) {
+                if ($arreglo[$j]['gd'] < $arreglo[$j + 1]['gd']) {
                     $temporal = $arreglo[$j];
                     $arreglo[$j] = $arreglo[$j + 1];
                     $arreglo[$j + 1] = $temporal;
@@ -255,5 +258,159 @@ class ResultadoController extends Controller
         return $arreglo;
     } 
 
+    
+
+   /*  public function getGroupDiscipline($id_disciplina)
+    {
+        try {
+            $query = DB::table('evento_disciplinas')
+                ->join('grupos', 'evento_disciplinas.id', '=', 'grupos.id_disciplina')
+                ->where('evento_disciplinas.state', true)
+                ->where('grupos.state', true)
+                ->where('evento_disciplinas.state', true)
+                ->where('evento_disciplinas.id', $id_disciplina)
+                ->select('grupos.*')
+                ->get();
+
+            if (sizeof($query)) {
+                $aux = [];
+                $equipos = [];
+                $data = array();
+                foreach ($query as $key => $value) {
+                    $menber[$key] = $value->menbers;
+                    $array = explode(",", $menber[$key]);
+                    foreach ($array as $k => $v) {
+                        $aux[$k] = equipos::find($v);
+                    }
+                    $equipos[$key] = $aux;
+                    array_push($data, ['id'=>$value->id,'nombre_grupo' => $value->group, 'equipos' => $equipos[$key]]);
+                }
+                return response()->json($data);
+            }
+
+            return response()->json(['message' => 'No se encontraron resultados'], 404);
+        } catch (Exception $e) {
+            return response()->json($e->getMessage());
+        }
+    }
+ */
+
+
+
+ //metodo nuevo de revision
+public function tablePositiones($id)
+{
+    $query = DB::table('evento_disciplinas')
+    ->join('grupos', 'evento_disciplinas.id', '=', 'grupos.id_evento_disciplina')
+    ->join('partidos', 'grupos.id', '=', 'partidos.id_grupo')
+    ->join('resultados', 'partidos.id', '=', 'resultados.id_partido')
+    ->where('evento_disciplinas.id', $id)
+    ->where('evento_disciplinas.estado', 1)
+    ->where('grupos.estado', 1)
+    ->where('partidos.isPlay', 1)
+    ->where('resultados.estado', 1)
+    ->select('resultados.id_equipo_disciplina')
+    ->get();
+
+    
+    $ids_equipo_disciplina = [];
+    $Equipos = [];
+    $Pts = [];
+    $pj = [];
+    $g = [];
+    $e = [];
+    $p = [];
+    $gf = [];
+    $gc = [];
+    $gd = [];
+    $data = array();
+    $aux = [];
+
+    foreach ($query as $key => $value) {
+        $ids_equipo_disciplina[$key] = $value->id_equipo_disciplina;
+    }
+
+    $ids_equipo_disciplina = array_unique($ids_equipo_disciplina);
+
+    foreach ($ids_equipo_disciplina as $k => $v) {
+
+        $Equipos[$k] = DB::table('equipo_disciplinas')
+            ->join('equipos', 'equipo_disciplinas.id_equipo', '=', 'equipos.id')
+            ->where('equipo_disciplinas.id', $ids_equipo_disciplina[$k])
+            ->first();
+            
+        $Pts[$k] = Resultado::where('id_equipo_disciplina', $v)->sum('puntos');
+        $Pts[$k] = Resultado::where('id_equipo_disciplina', $v)->sum('puntos');
+        $pj[$k] = Resultado::where('id_equipo_disciplina', $v)->count();
+        
+        $g[$k] = Resultado::where('id_equipo_disciplina', $v)
+        ->where('puntos', 3)
+        ->count();
+
+        $e[$k] = Resultado::where('id_equipo_disciplina', $v)
+            ->where('puntos', 1)
+            ->count();
+
+        $p[$k] = Resultado::where('id_equipo_disciplina', $v)
+            ->where('puntos', 0)
+            ->count();
+       
+
+        $gf[$k] = Resultado::where('id_equipo_disciplina', $v)->sum('goles_favor');
+        $gc[$k] = Resultado::where('id_equipo_disciplina', $v)->sum('goles_contra');
+        $gd[$k] = $gf[$k] - $gc[$k];
+
+        array_push(
+            $data,
+            [
+                'Equipos' => $Equipos[$k],
+                'Pts' => $Pts[$k],
+                'pj' => $pj[$k],
+                'g' => $g[$k],
+                'e' => $e[$k],
+                'p' => $p[$k],
+                'gf' => $gf[$k],
+                'gc' => $gc[$k],
+                'gd' => $gd[$k]
+            ]
+        );
+    }
+
+
+    $result = $this->burbuja3($data);
+    $result = $this->burbuja4($data);
+
+    return response()->json($result);
+}
+
+function burbuja3($arreglo)
+{
+    $longitud = count($arreglo);
+    for ($i = 0; $i < $longitud; $i++) {
+        for ($j = 0; $j < $longitud - 1; $j++) {
+            if ($arreglo[$j]['Pts'] < $arreglo[$j + 1]['Pts']) {
+                $temporal = $arreglo[$j];
+                $arreglo[$j] = $arreglo[$j + 1];
+                $arreglo[$j + 1] = $temporal;
+            }
+        }
+    }
+    return $arreglo;
+}
+
+function burbuja4($arreglo)
+{
+    $longitud = count($arreglo);
+    for ($i = 0; $i < $longitud; $i++) {
+        for ($j = 0; $j < $longitud - 1; $j++) {
+            if ($arreglo[$j]['gd'] < $arreglo[$j + 1]['gd']) {
+                $temporal = $arreglo[$j];
+                $arreglo[$j] = $arreglo[$j + 1];
+                $arreglo[$j + 1] = $temporal;
+            }
+        }
+    }
+    return $arreglo;
+} 
 
 }

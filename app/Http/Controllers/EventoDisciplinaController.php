@@ -87,4 +87,23 @@ class EventoDisciplinaController extends Controller
 
         return response()->json($EventoDisciplina, 200);
     }
+
+
+    
+  /*   public function MostrarEventoDisciplina(){
+
+        $EventoDisciplina = DB::table('evento_disciplinas')
+        ->join('eventos', 'evento_disciplinas.id_evento', '=', 'eventos.id')
+        ->join('disciplinas', 'evento_disciplinas.id_disciplina', '=', 'disciplinas.id')
+        ->join('configuracions', 'evento_disciplinas.id_configuracion', '=', 'configuracions.id')
+        ->select('evento_disciplinas.id as id_evento_disciplina', //evento_disciplinas
+        'eventos.nombre as nombre_evento', //eventos
+        'disciplinas.nombre as disciplina', //disciplinas
+        'configuracions.nombre as nombre_configuracion', //configuracions
+        )
+        ->where('evento_disciplinas.estado', 1)
+        ->get();
+
+        return response()->json($EventoDisciplina, 200);
+    } */
 }

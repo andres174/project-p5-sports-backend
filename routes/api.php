@@ -52,6 +52,7 @@ Route::post('deleteselectevento', [EventoController::class, 'deleteSelectEvento'
 //Evento diciplina
 Route::resource('EventoDisciplina', EventoDisciplinaController::class);
 Route::get('mostrar-eventos-discplinas', [EventoDisciplinaController::class, 'MostrarEventoDisciplinas']);
+/* Route::get('mostrar-eventos-tabla', [EventoDisciplinaController::class, 'MostrarEventoDisciplina']); */
 
 // Accion Jugador 
 Route::resource('accion_jugador', AccionJugadorController::class);
@@ -69,7 +70,9 @@ Route::post('deleteSelectjugador', [JugadorController::class, 'deleteSelectJugad
 //Resultado
 Route::post('deleteselectresultados', [ResultadoController::class, 'deleteSelectResultados']);
 Route::get('tablaposicion/{id}', [ResultadoController::class, 'tablePosition']);
+Route::get('getgroupDiscipline/{id}', [ResultadoController::class, 'getGroupDiscipline']);
 Route::resource('resultado', ResultadoController::class);
+Route::get('tablaposiciones/{id}', [ResultadoController::class, 'tablePositiones']);
 
 // Posiciones
 Route::apiResource('posiciones', PosicionController::class);

@@ -96,6 +96,7 @@ Route::get(
   'get-evento-disciplinas-small-from-evento/{id_evento}',
   [JugadorEquipoController::class, 'getEventoDisciplinasSmallFromEvento']
 );
+Route::get('get-configuracion/{id}', [JugadorEquipoController::class, 'getConfiguracion']);
 
 
 //  Grupos

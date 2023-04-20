@@ -114,4 +114,21 @@ class JugadorEquipoController extends Controller
 
         return response()->json($eventoDisciplinasSmall, 200);
     }
+
+    public function getConfiguracion($id)
+    {
+        $configuracion = DB::table('configuracions', 'c')
+            ->join('usuarios as u', 'c.id_organizador', 'u.id')
+            ->select('c.*', 'u.nombre as nombre_organizador', 'u.apellido as apellido_organizador')
+            ->where('c.id', $id)
+            ->where('c.estado', 1)
+            ->where('u.estado', 1)
+            ->first();
+
+        if (is_null($configuracion)) {
+            return response()->json(['message' => 'No existe la configuración'], 404);
+        }
+
+        return response()->json($configuracion, 200);
+    }
 }

@@ -19,6 +19,7 @@ use App\Http\Controllers\PartidoController;
 use App\Http\Controllers\EventoController;
 use App\Http\Controllers\EventoDisciplinaController;
 use App\Http\Controllers\EquipoController;
+use App\Http\Controllers\JugadorEquipoController;
 use App\Http\Controllers\ResultadoController;
 
 /*
@@ -52,6 +53,7 @@ Route::post('deleteselectevento', [EventoController::class, 'deleteSelectEvento'
 //Evento diciplina
 Route::resource('EventoDisciplina', EventoDisciplinaController::class);
 Route::get('mostrar-eventos-discplinas', [EventoDisciplinaController::class, 'MostrarEventoDisciplinas']);
+/* Route::get('mostrar-eventos-tabla', [EventoDisciplinaController::class, 'MostrarEventoDisciplina']); */
 
 // Accion Jugador 
 Route::resource('accion_jugador', AccionJugadorController::class);
@@ -69,7 +71,9 @@ Route::post('deleteSelectjugador', [JugadorController::class, 'deleteSelectJugad
 //Resultado
 Route::post('deleteselectresultados', [ResultadoController::class, 'deleteSelectResultados']);
 Route::get('tablaposicion/{id}', [ResultadoController::class, 'tablePosition']);
+Route::get('getgroupDiscipline/{id}', [ResultadoController::class, 'getGroupDiscipline']);
 Route::resource('resultado', ResultadoController::class);
+Route::get('tablaposiciones/{id}', [ResultadoController::class, 'tablePositiones']);
 
 // Posiciones
 Route::apiResource('posiciones', PosicionController::class);
@@ -82,6 +86,16 @@ Route::post('edit-email-usuario/{id}', [UsuarioController::class, 'editarEmailUs
 Route::post('edit-password-usuario/{id}', [UsuarioController::class, 'editarPasswordUsuario']);
 Route::post('edit-foto-usuario/{id}', [UsuarioController::class, 'editarFotoUsuario']);
 Route::post('delete-selected-usuarios', [UsuarioController::class, 'eliminarUsuarios']);
+
+// Jugador Equipo
+Route::get(
+  'get-eventos-from-organizador/{id_organizador}',
+  [JugadorEquipoController::class, 'getEventosFromOrganizador']
+);
+Route::get(
+  'get-evento-disciplinas-small-from-evento/{id_evento}',
+  [JugadorEquipoController::class, 'getEventoDisciplinasSmallFromEvento']
+);
 
 
 //  Grupos

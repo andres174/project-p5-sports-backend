@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\GrupoEquipo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class GrupoEquipoController extends Controller
 {
@@ -62,4 +63,33 @@ class GrupoEquipoController extends Controller
     {
         //
     }
+
+    public function getGruposParaTablaPosicion($id_evento_disciplina){
+
+        $respuesta = Array();
+
+        $grupo = DB::table('grupos')
+        ->select('grupos.*')
+        ->where('grupos.id_evento_disciplina', $id_evento_disciplina)
+        ->where('grupos.estado', 1)
+        ->get();
+        
+        array_push($respuesta, ['grupos' => $grupo]);
+
+        foreach ($grupo as $g) {
+            
+            $equipo_temp = DB::table('grupo_equipos')
+            ->select('grupo_equipos.*')
+            ->where('grupo_equipos.id_grupo', $g->id)
+            ->where('grupo_equipos.estado', 1)
+            ->get();
+
+            array_push($respuesta, ['Equipos_'.$g->nombre_grupo => $equipo_temp]);
+
+        }
+
+        return response()->json($respuesta, 200);
+
+    }
+
 }

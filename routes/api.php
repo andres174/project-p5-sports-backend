@@ -21,6 +21,7 @@ use App\Http\Controllers\EventoDisciplinaController;
 use App\Http\Controllers\EquipoController;
 use App\Http\Controllers\JugadorEquipoController;
 use App\Http\Controllers\ResultadoController;
+use App\Http\Controllers\GrupoEquipoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -78,6 +79,7 @@ Route::get('tablaposiciones/{id}', [ResultadoController::class, 'tablePositiones
 // Posiciones
 Route::apiResource('posiciones', PosicionController::class);
 Route::post('deleteSelectposicion', [PosicionController::class, 'deleteSelectPosicion']);
+Route::get('get-grupos-para-tabla/{id}', [GrupoEquipoController::class, 'getGruposParaTablaPosicion']);
 
 // Usuarios
 Route::apiResource('usuarios', UsuarioController::class);
@@ -114,19 +116,8 @@ Route::get('pruebaHora/{id}', [PartidoController::class, 'crearPartidos']);
 
 //las que van con token
 Route::middleware('auth:sanctum')->group(function () {
+
+  //
+
 });
 
-
-
-
-
-
-
-
-// -----------------------------------------------------------------------------------------
-
-# ******************************************
-#             RUTAS DE PRUEBA
-# ******************************************
-
-Route::get('getConfiguracionGrupo', [GrupoController::class, 'getConfiguracion']);

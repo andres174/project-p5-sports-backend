@@ -51,7 +51,7 @@ class JugadorEquipoController extends Controller
         //
     }
 
-    public function getEventosFromOrganizador($id_organizador)
+    public function getEventosByOrganizador($id_organizador)
     {
         $id_tipo_usuario = DB::table('usuarios')
             ->where('id', $id_organizador)
@@ -81,7 +81,7 @@ class JugadorEquipoController extends Controller
         return response()->json($eventos, 200);
     }
 
-    public function getEventoDisciplinasSmallFromEvento($id_evento)
+    public function getEventoDisciplinasSmallByEvento($id_evento)
     {
         $evento = DB::table('eventos')
             ->where('id', $id_evento)
@@ -130,5 +130,45 @@ class JugadorEquipoController extends Controller
         }
 
         return response()->json($configuracion, 200);
+    }
+
+    public function getEventoDisciplinasByEvento(string $id_evento)
+    {
+        $eventoDisciplinasIds = DB::table('evento_disciplinas as edc')
+            ->where('id_evento', $id_evento)
+            ->pluck('id')->toArray();
+
+
+        $disciplinas = DB::table('disciplinas as d')
+            ->join('evento_disciplinas as edc', 'd.id', 'edc.id_disciplina')
+            ->select('d.*')
+            ->where('edc.id_evento', $id_evento)
+            ->get()->toArray();
+
+        $configuraciones = DB::table('configuracions as c')
+            ->join('evento_disciplinas as edc', 'c.id', 'edc.id_configuracion')
+            ->join('usuarios as u', 'c.id_organizador', 'u.id')
+            ->select(
+                'c.*',
+                'u.nombre as nombre_organizador',
+                'u.apellido as apellido_organizador'
+            )
+            ->where('edc.id_evento', $id_evento)
+            ->get()->toArray();
+
+        $eventoDisciplinas = array_map(function ($edId, $d, $c) {
+
+            // if ($d->estado == '0' || $c->estado == '0')
+            // return;
+            // if ($edId == 3) return;
+
+            return [
+                'id' => $edId,
+                'disciplina' => $d,
+                'configuracion' => $c
+            ];
+        }, $eventoDisciplinasIds, $disciplinas, $configuraciones);
+
+        return response()->json($eventoDisciplinas, 200);
     }
 }

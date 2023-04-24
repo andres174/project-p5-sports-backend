@@ -64,7 +64,10 @@ class EventoDisciplinaController extends Controller
         //
     }
 
-    public function getAllEventos(){
+
+    
+
+    public function getEventos(){
 
         $eventos = DB::table('eventos')
         ->join('usuarios', 'eventos.id_organizador', '=', 'usuarios.id' )
@@ -75,14 +78,32 @@ class EventoDisciplinaController extends Controller
         return response()->json($eventos, 200);
 
     }
+    
 
-    public function getConfiguracion($id_evento_disciplina){
-        $config = DB::table('evento_disciplinas')
-        ->join('configuracions','evento_disciplinas.id_configuracion','=','configuracions.id')
-        ->select('configuracions.*','evento_disciplinas.id_configuracion')
-        ->where('evento_disciplinas.id', $id_evento_disciplina)
+    public function getDisciplina(){
+
+        $disciplinas = DB::table('disciplinas')
+        ->select('disciplinas.nombre as disciplina', //disciplinas
+        )
+        ->where('disciplinas.estado', 1)
         ->get();
+
+        return response()->json($disciplinas, 200);
+
     }
+
+    
+
+    public function getConfiguracion(){
+        $configuracions = DB::table('configuracions')
+        ->join('usuarios', 'configuracions.id_organizador', '=', 'usuarios.id' )
+        ->select('configuracions.*', 'usuarios.nombre as nombre_org', 'usuarios.apellido as apellido_org', 'usuarios.email')
+        ->where('configuracions.estado', 1)
+        ->get();
+
+        return response()->json($configuracions, 200);
+    }
+
 
 
     public function MostrarEventoDisciplinas(){
@@ -108,21 +129,30 @@ class EventoDisciplinaController extends Controller
     }
 
 
-    
-  /*   public function MostrarEventoDisciplina(){
+    /*public function MostrarOneEventoDisciplinas($id_evento){
 
         $EventoDisciplina = DB::table('evento_disciplinas')
         ->join('eventos', 'evento_disciplinas.id_evento', '=', 'eventos.id')
         ->join('disciplinas', 'evento_disciplinas.id_disciplina', '=', 'disciplinas.id')
         ->join('configuracions', 'evento_disciplinas.id_configuracion', '=', 'configuracions.id')
-        ->select('evento_disciplinas.id as id_evento_disciplina', //evento_disciplinas
-        'eventos.nombre as nombre_evento', //eventos
+        ->select('evento_disciplinas.id as id_evento_disciplina', // 'evento_disciplinas.*', 
+        'eventos.nombre as nombre_evento', 'eventos.imagen', 'eventos.fecha_inicio'
+        , 'eventos.fecha_fin', //evento 
         'disciplinas.nombre as disciplina', //disciplinas
-        'configuracions.nombre as nombre_configuracion', //configuracions
+        'configuracions.nombre as nombre_configuracion', 'configuracions.numero_grupos'
+        , 'configuracions.numero_miembros', 'configuracions.minutos_juego'
+        , 'configuracions.minutos_entre_partidos', 'configuracions.tarjetas'
+        , 'configuracions.ida_y_vuelta', 'configuracions.id_organizador as user_config', //configuracion
+        
         )
         ->where('evento_disciplinas.estado', 1)
+        ->where('evento_disciplinas.id_evento', $id_evento)
         ->get();
 
         return response()->json($EventoDisciplina, 200);
-    } */
+    }*/
+
+
+    
+ 
 }

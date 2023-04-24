@@ -107,8 +107,8 @@ Route::get(
   [JugadorEquipoController::class, 'getEventosByOrganizador']
 );
 Route::get(
-  'get-evento-disciplinas-small-by-evento/{id_evento}',
-  [JugadorEquipoController::class, 'getEventoDisciplinasSmallByEvento']
+  'get-evento-disciplinas-by-evento/{id_evento}',
+  [JugadorEquipoController::class, 'getEventoDisciplinasByEvento']
 );
 Route::get('get-evento-disciplina-by-evento/{id_evento}', [JugadorEquipoController::class, 'getEventoDisciplinasByEvento']);
 Route::get('get-configuracion/{id}', [JugadorEquipoController::class, 'getConfiguracion']);

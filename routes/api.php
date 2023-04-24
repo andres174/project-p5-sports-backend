@@ -54,8 +54,11 @@ Route::post('deleteselectevento', [EventoController::class, 'deleteSelectEvento'
 
 //Evento diciplina
 Route::resource('EventoDisciplina', EventoDisciplinaController::class);
+Route::get('get-eventos', [EventoDisciplinaController::class, 'getEventos']);
+Route::get('get-disciplinas', [EventoDisciplinaController::class, 'getDisciplina']);
+Route::get('get-config', [EventoDisciplinaController::class, 'getConfiguracion']);
 Route::get('mostrar-eventos-discplinas', [EventoDisciplinaController::class, 'MostrarEventoDisciplinas']);
-/* Route::get('mostrar-eventos-tabla', [EventoDisciplinaController::class, 'MostrarEventoDisciplina']); */
+
 
 // Accion Jugador 
 Route::resource('accion_jugador', AccionJugadorController::class);
@@ -122,6 +125,9 @@ Route::post('generar-grupos-auto', [GrupoController::class, 'guardarGruposGenera
 
 //Partidos
 Route::get('pruebaHora/{id}', [PartidoController::class, 'crearPartidos']);
+
+
+
 
 
 //las que van con token

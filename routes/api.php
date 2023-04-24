@@ -91,7 +91,7 @@ Route::post('edit-foto-usuario/{id}', [UsuarioController::class, 'editarFotoUsua
 Route::post('delete-selected-usuarios', [UsuarioController::class, 'eliminarUsuarios']);
 
 // Equipo Disciplina
-Route::post('equipo-disciplinas', [EquipoDisciplinaController::class, 'store']);
+Route::apiResource('equipo-disciplinas', EquipoDisciplinaController::class);
 Route::get(
   'get-equipos-by-disciplina/{id_evento_disciplina}',
   [EquipoDisciplinaController::class, 'getEquiposByDisciplina']

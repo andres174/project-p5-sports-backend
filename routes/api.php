@@ -19,6 +19,7 @@ use App\Http\Controllers\PartidoController;
 use App\Http\Controllers\EventoController;
 use App\Http\Controllers\EventoDisciplinaController;
 use App\Http\Controllers\EquipoController;
+use App\Http\Controllers\EquipoDisciplinaController;
 use App\Http\Controllers\JugadorEquipoController;
 use App\Http\Controllers\ResultadoController;
 use App\Http\Controllers\GrupoEquipoController;
@@ -89,15 +90,24 @@ Route::post('edit-password-usuario/{id}', [UsuarioController::class, 'editarPass
 Route::post('edit-foto-usuario/{id}', [UsuarioController::class, 'editarFotoUsuario']);
 Route::post('delete-selected-usuarios', [UsuarioController::class, 'eliminarUsuarios']);
 
+// Equipo Disciplina
+Route::post('equipo-disciplinas', [EquipoDisciplinaController::class, 'store']);
+Route::get(
+  'get-equipos-by-disciplina/{id_evento_disciplina}',
+  [EquipoDisciplinaController::class, 'getEquiposByDisciplina']
+);
+
+
 // Jugador Equipo
 Route::get(
-  'get-eventos-from-organizador/{id_organizador}',
-  [JugadorEquipoController::class, 'getEventosFromOrganizador']
+  'get-eventos-by-organizador/{id_organizador}',
+  [JugadorEquipoController::class, 'getEventosByOrganizador']
 );
 Route::get(
-  'get-evento-disciplinas-small-from-evento/{id_evento}',
-  [JugadorEquipoController::class, 'getEventoDisciplinasSmallFromEvento']
+  'get-evento-disciplinas-small-by-evento/{id_evento}',
+  [JugadorEquipoController::class, 'getEventoDisciplinasSmallByEvento']
 );
+Route::get('get-evento-disciplina-by-evento/{id_evento}', [JugadorEquipoController::class, 'getEventoDisciplinasByEvento']);
 Route::get('get-configuracion/{id}', [JugadorEquipoController::class, 'getConfiguracion']);
 
 
@@ -120,4 +130,3 @@ Route::middleware('auth:sanctum')->group(function () {
   //
 
 });
-

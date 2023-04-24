@@ -103,7 +103,10 @@ class JugadorEquipoController extends Controller
                 'c.nombre as nombre_configuracion',
             )
             ->where('edc.id_evento', $id_evento)
-            ->where(['edc.estado', 1], ['e.estado', 1], ['d.estado', 1], ['c.estado', 1])
+            ->where('edc.estado', 1)
+            ->where('e.estado', 1)
+            ->where('d.estado', 1)
+            ->where('c.estado', 1)
             ->get();
 
         return response()->json($eventoDisciplinasSmall, 200);

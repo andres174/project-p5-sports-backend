@@ -32,7 +32,9 @@ class EquipoDisciplinaController extends Controller
             ->join('evento_disciplinas as evd', 'evd.id', 'eqd.id_evento_disciplina')
             ->where('eqd.id_evento_disciplina', $validatedData['id_evento_disciplina'])
             ->where('eq.id', $validatedData['id_equipo'])
-            ->where([['eq.estado', 1], ['eqd.estado', 1], ['evd.estado', 1]])
+            ->where('eq.estado', 1)
+            ->where('eqd.estado', 1)
+            ->where('evd.estado', 1)
             ->first();
 
         if ($equipoRepetido)
@@ -89,7 +91,8 @@ class EquipoDisciplinaController extends Controller
             ->join('equipos as eq', 'eqd.id_equipo', 'eq.id')
             ->select('eq.*')
             ->where('eqd.id_evento_disciplina', $id_evento_disciplina)
-            ->where(['eqd.estado', 1], ['eq.estado', 1])
+            ->where('eqd.estado', 1)
+            ->where('eq.estado', 1)
             ->get();
 
         return response()->json($equipos, 200);

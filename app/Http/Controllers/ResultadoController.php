@@ -311,7 +311,6 @@ public function tablePositiones($id)
     ->where('resultados.estado', 1)
     ->select('resultados.id_equipo_disciplina')
     ->get();
-
     
     $ids_equipo_disciplina = [];
     $Equipos = [];
@@ -338,8 +337,7 @@ public function tablePositiones($id)
             ->join('equipos', 'equipo_disciplinas.id_equipo', '=', 'equipos.id')
             ->where('equipo_disciplinas.id', $ids_equipo_disciplina[$k])
             ->first();
-            
-        $Pts[$k] = Resultado::where('id_equipo_disciplina', $v)->sum('puntos');
+ 
         $Pts[$k] = Resultado::where('id_equipo_disciplina', $v)->sum('puntos');
         $pj[$k] = Resultado::where('id_equipo_disciplina', $v)->count();
         
@@ -412,5 +410,17 @@ function burbuja4($arreglo)
     }
     return $arreglo;
 } 
+
+
+public function tablaGrupos($id_evento_disciplina){
+    $grupo = DB::table('grupos')
+    ->select('grupos.*')
+    ->where('grupos.id_evento_disciplina', $id_evento_disciplina)
+    ->where('grupos.estado', 1)
+    ->get();
+
+    return response()->json($grupo);
+}
+
 
 }

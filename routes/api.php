@@ -75,7 +75,7 @@ Route::get('tablaposicion/{id}', [ResultadoController::class, 'tablePosition']);
 Route::get('getgroupDiscipline/{id}', [ResultadoController::class, 'getGroupDiscipline']);
 Route::resource('resultado', ResultadoController::class);
 Route::get('tablaposiciones/{id}', [ResultadoController::class, 'tablePositiones']);
-
+Route::get('gettablaGrupos/{id}', [ResultadoController::class, 'tablaGrupos']);
 // Posiciones
 Route::apiResource('posiciones', PosicionController::class);
 Route::post('deleteSelectposicion', [PosicionController::class, 'deleteSelectPosicion']);

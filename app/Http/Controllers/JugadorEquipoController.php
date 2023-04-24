@@ -129,44 +129,43 @@ class JugadorEquipoController extends Controller
         return response()->json($configuracion, 200);
     }
 
-    //  Intentando retortar objeto anidado
-    // public function getEventoDisciplinasByEvento(string $id_evento)
-    // {
-    //     $eventoDisciplinasIds = DB::table('evento_disciplinas as edc')
-    //         ->where('id_evento', $id_evento)
-    //         ->pluck('id')->toArray();
+    public function getEventoDisciplinasFullByEvento(string $id_evento)
+    {
+        $evento = DB::table('eventos')->where('estado', 1)->find($id_evento);
+
+        if (is_null($evento)) {
+            return response()->json(['message' => 'No existe el evento'], 404);
+        }
+
+        $eventoDisciplinasIds = DB::table('evento_disciplinas as edc')
+            ->where('id_evento', $id_evento)
+            ->pluck('id')->toArray();
 
 
-    //     $disciplinas = DB::table('disciplinas as d')
-    //         ->join('evento_disciplinas as edc', 'd.id', 'edc.id_disciplina')
-    //         ->select('d.*')
-    //         ->where('edc.id_evento', $id_evento)
-    //         ->get()->toArray();
+        $disciplinas = DB::table('disciplinas as d')
+            ->join('evento_disciplinas as edc', 'd.id', 'edc.id_disciplina')
+            ->select('d.*')
+            ->where('edc.id_evento', $id_evento)
+            ->get()->toArray();
 
-    //     $configuraciones = DB::table('configuracions as c')
-    //         ->join('evento_disciplinas as edc', 'c.id', 'edc.id_configuracion')
-    //         ->join('usuarios as u', 'c.id_organizador', 'u.id')
-    //         ->select(
-    //             'c.*',
-    //             'u.nombre as nombre_organizador',
-    //             'u.apellido as apellido_organizador'
-    //         )
-    //         ->where('edc.id_evento', $id_evento)
-    //         ->get()->toArray();
+        $configuraciones = DB::table('configuracions as c')
+            ->join('evento_disciplinas as edc', 'c.id', 'edc.id_configuracion')
+            ->join('usuarios as u', 'c.id_organizador', 'u.id')
+            ->select(
+                'c.*',
+                'u.nombre as nombre_organizador',
+                'u.apellido as apellido_organizador'
+            )
+            ->where('edc.id_evento', $id_evento)
+            ->get()->toArray();
 
-    //     $eventoDisciplinas = array_map(function ($edId, $d, $c) {
+        $eventoDisciplinas = array_map(fn ($edId, $d, $c) => [
+            'id' => $edId,
+            'evento' => $evento,
+            'disciplina' => $d,
+            'configuracion' => $c
+        ], $eventoDisciplinasIds, $disciplinas, $configuraciones);
 
-    //         // if ($d->estado == '0' || $c->estado == '0')
-    //         // return;
-    //         // if ($edId == 3) return;
-
-    //         return [
-    //             'id' => $edId,
-    //             'disciplina' => $d,
-    //             'configuracion' => $c
-    //         ];
-    //     }, $eventoDisciplinasIds, $disciplinas, $configuraciones);
-
-    //     return response()->json($eventoDisciplinas, 200);
-    // }
+        return response()->json($eventoDisciplinas, 200);
+    }
 }

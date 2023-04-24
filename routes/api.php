@@ -95,9 +95,21 @@ Route::post('delete-selected-usuarios', [UsuarioController::class, 'eliminarUsua
 
 // Equipo Disciplina
 Route::apiResource('equipo-disciplinas', EquipoDisciplinaController::class);
+Route::post(
+  'delete-selected-equipo-disciplinas',
+  [EquipoDisciplinaController::class, 'deleteSelectedEquipoDisciplinas']
+);
+Route::get(
+  'get-equipo-disciplinas-by-disciplina/{id_evento_disciplina}',
+  [EquipoDisciplinaController::class, 'getEquipoDisciplinasByDisciplina']
+);
 Route::get(
   'get-equipos-by-disciplina/{id_evento_disciplina}',
   [EquipoDisciplinaController::class, 'getEquiposByDisciplina']
+);
+Route::get(
+  'get-equipos-to-add-by-disciplina/{id_evento_disciplina}',
+  [EquipoDisciplinaController::class, 'getEquiposToAddByDisciplina']
 );
 
 

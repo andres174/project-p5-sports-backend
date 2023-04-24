@@ -137,27 +137,22 @@ class JugadorEquipoController extends Controller
             return response()->json(['message' => 'No existe el evento'], 404);
         }
 
-        $eventoDisciplinasIds = DB::table('evento_disciplinas as edc')
-            ->where('id_evento', $id_evento)
-            ->pluck('id')->toArray();
-
-
-        $disciplinas = DB::table('disciplinas as d')
-            ->join('evento_disciplinas as edc', 'd.id', 'edc.id_disciplina')
-            ->select('d.*')
+        $query = DB::table('evento_disciplinas as edc')
+            ->join('disciplinas as d', 'edc.id_disciplina', 'd.id')
+            ->join('configuracions as c', 'edc.id_configuracion', 'c.id')
             ->where('edc.id_evento', $id_evento)
-            ->get()->toArray();
+            ->where('edc.estado', 1)
+            ->where('d.estado', 1)
+            ->where('c.estado', 1);
 
-        $configuraciones = DB::table('configuracions as c')
-            ->join('evento_disciplinas as edc', 'c.id', 'edc.id_configuracion')
-            ->join('usuarios as u', 'c.id_organizador', 'u.id')
-            ->select(
+        $eventoDisciplinasIds = $query->pluck('edc.id')->toArray();
+        $disciplinas = $query->get('d.*')->toArray();
+        $configuraciones = $query->join('usuarios as u', 'c.id_organizador', 'u.id')
+            ->get([
                 'c.*',
                 'u.nombre as nombre_organizador',
                 'u.apellido as apellido_organizador'
-            )
-            ->where('edc.id_evento', $id_evento)
-            ->get()->toArray();
+            ])->toArray();
 
         $eventoDisciplinas = array_map(fn ($edId, $d, $c) => [
             'id' => $edId,

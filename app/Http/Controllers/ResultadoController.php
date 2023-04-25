@@ -114,12 +114,37 @@ class ResultadoController extends Controller
     public function deleteSelectResultados(request $request){
         $aux=explode(',',$request->ids);
         for($i=0; $i<count($aux); $i++){
-            $resultados=resultados::find($aux[$i]);
+            $resultados=resultado::find($aux[$i]);
             $resultados->estado=0;
             $resultados->save();
         }
         return response()->json(['message'=>'Las resultados se eliminaron exitosamente'],200);
     }
+
+    public function getEquipo_Disciplina(){
+        $equipo_disciplinas = DB::table('equipo_disciplinas')
+        ->join('equipos', 'equipo_disciplinas.id_equipo', '=', 'equipos.id' )
+        ->join('evento_disciplinas', 'equipo_disciplinas.id_evento_disciplina', '=', 'evento_disciplinas.id' )
+        ->select('equipo_disciplinas.*', 'equipos.nombre','equipos.logo','evento_disciplinas.id_disciplina',
+        'evento_disciplinas.id_evento','evento_disciplinas.id_configuracion')
+        ->where('equipo_disciplinas.estado', 1)
+        ->get();
+
+        return response()->json($equipo_disciplinas, 200);
+    }
+
+    public function getPartido(){
+
+        $partidos = DB::table('partidos')
+        ->join('grupos', 'partidos.id_grupo', '=', 'grupos.id' )
+        ->select('partidos.*', 'grupos.nombre_grupo', 'grupos.id_evento_disciplina')
+        ->where('partidos.estado', 1)
+        -> get();
+
+        return response()->json($partidos, 200);
+
+    }
+
 
 
     public function tabla_posiciones()

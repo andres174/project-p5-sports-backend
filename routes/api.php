@@ -78,6 +78,8 @@ Route::post('deleteselectresultados', [ResultadoController::class, 'deleteSelect
 Route::get('tablaposicion/{id}', [ResultadoController::class, 'tablePosition']);
 Route::get('getgroupDiscipline/{id}', [ResultadoController::class, 'getGroupDiscipline']);
 Route::resource('resultado', ResultadoController::class);
+Route::get('get-Equipo-Disciplina', [ResultadoController::class, 'getEquipo_Disciplina']);
+Route::get('get-partidos', [ResultadoController::class, 'getPartido']);
 Route::get('tablaposiciones/{id}', [ResultadoController::class, 'tablePositiones']);
 
 // Posiciones

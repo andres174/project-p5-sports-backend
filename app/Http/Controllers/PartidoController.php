@@ -64,7 +64,7 @@ class PartidoController extends Controller
      */
     public function show( $id)
     {
-        $partidos=Partido::find($id);
+        $partido=Partido::find($id);
         if (is_null($partido)) {
             return response()->json(['message'=>'El partido no fue encontrado'],400);
         }

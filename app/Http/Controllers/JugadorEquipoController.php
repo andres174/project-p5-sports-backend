@@ -81,12 +81,9 @@ class JugadorEquipoController extends Controller
         return response()->json($eventos, 200);
     }
 
-    public function getEventoDisciplinasSmallByEvento($id_evento)
+    public function getEventoDisciplinasByEvento($id_evento)
     {
-        $evento = DB::table('eventos')
-            ->where('id', $id_evento)
-            ->where('estado', 1)
-            ->first();
+        $evento = DB::table('eventos')->where('estado', 1)->find($id_evento);
 
         if (is_null($evento)) {
             return response()->json(['message' => 'No existe el evento'], 404);
@@ -132,42 +129,37 @@ class JugadorEquipoController extends Controller
         return response()->json($configuracion, 200);
     }
 
-    public function getEventoDisciplinasByEvento(string $id_evento)
+    public function getEventoDisciplinasFullByEvento(string $id_evento)
     {
-        $eventoDisciplinasIds = DB::table('evento_disciplinas as edc')
-            ->where('id_evento', $id_evento)
-            ->pluck('id')->toArray();
+        $evento = DB::table('eventos')->where('estado', 1)->find($id_evento);
 
+        if (is_null($evento)) {
+            return response()->json(['message' => 'No existe el evento'], 404);
+        }
 
-        $disciplinas = DB::table('disciplinas as d')
-            ->join('evento_disciplinas as edc', 'd.id', 'edc.id_disciplina')
-            ->select('d.*')
+        $query = DB::table('evento_disciplinas as edc')
+            ->join('disciplinas as d', 'edc.id_disciplina', 'd.id')
+            ->join('configuracions as c', 'edc.id_configuracion', 'c.id')
             ->where('edc.id_evento', $id_evento)
-            ->get()->toArray();
+            ->where('edc.estado', 1)
+            ->where('d.estado', 1)
+            ->where('c.estado', 1);
 
-        $configuraciones = DB::table('configuracions as c')
-            ->join('evento_disciplinas as edc', 'c.id', 'edc.id_configuracion')
-            ->join('usuarios as u', 'c.id_organizador', 'u.id')
-            ->select(
+        $eventoDisciplinasIds = $query->pluck('edc.id')->toArray();
+        $disciplinas = $query->get('d.*')->toArray();
+        $configuraciones = $query->join('usuarios as u', 'c.id_organizador', 'u.id')
+            ->get([
                 'c.*',
                 'u.nombre as nombre_organizador',
                 'u.apellido as apellido_organizador'
-            )
-            ->where('edc.id_evento', $id_evento)
-            ->get()->toArray();
+            ])->toArray();
 
-        $eventoDisciplinas = array_map(function ($edId, $d, $c) {
-
-            // if ($d->estado == '0' || $c->estado == '0')
-            // return;
-            // if ($edId == 3) return;
-
-            return [
-                'id' => $edId,
-                'disciplina' => $d,
-                'configuracion' => $c
-            ];
-        }, $eventoDisciplinasIds, $disciplinas, $configuraciones);
+        $eventoDisciplinas = array_map(fn ($edId, $d, $c) => [
+            'id' => $edId,
+            'evento' => $evento,
+            'disciplina' => $d,
+            'configuracion' => $c
+        ], $eventoDisciplinasIds, $disciplinas, $configuraciones);
 
         return response()->json($eventoDisciplinas, 200);
     }

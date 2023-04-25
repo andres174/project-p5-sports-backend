@@ -94,10 +94,22 @@ Route::post('edit-foto-usuario/{id}', [UsuarioController::class, 'editarFotoUsua
 Route::post('delete-selected-usuarios', [UsuarioController::class, 'eliminarUsuarios']);
 
 // Equipo Disciplina
-Route::post('equipo-disciplinas', [EquipoDisciplinaController::class, 'store']);
+Route::apiResource('equipo-disciplinas', EquipoDisciplinaController::class);
+Route::post(
+  'delete-selected-equipo-disciplinas',
+  [EquipoDisciplinaController::class, 'deleteSelectedEquipoDisciplinas']
+);
+Route::get(
+  'get-equipo-disciplinas-by-disciplina/{id_evento_disciplina}',
+  [EquipoDisciplinaController::class, 'getEquipoDisciplinasByDisciplina']
+);
 Route::get(
   'get-equipos-by-disciplina/{id_evento_disciplina}',
   [EquipoDisciplinaController::class, 'getEquiposByDisciplina']
+);
+Route::get(
+  'get-equipos-to-add-by-disciplina/{id_evento_disciplina}',
+  [EquipoDisciplinaController::class, 'getEquiposToAddByDisciplina']
 );
 
 
@@ -107,10 +119,13 @@ Route::get(
   [JugadorEquipoController::class, 'getEventosByOrganizador']
 );
 Route::get(
-  'get-evento-disciplinas-small-by-evento/{id_evento}',
-  [JugadorEquipoController::class, 'getEventoDisciplinasSmallByEvento']
+  'get-evento-disciplinas-by-evento/{id_evento}',
+  [JugadorEquipoController::class, 'getEventoDisciplinasByEvento']
 );
-Route::get('get-evento-disciplina-by-evento/{id_evento}', [JugadorEquipoController::class, 'getEventoDisciplinasByEvento']);
+Route::get(
+  'get-evento-disciplinas-full-by-evento/{id_evento}',
+  [JugadorEquipoController::class, 'getEventoDisciplinasFullByEvento']
+);
 Route::get('get-configuracion/{id}', [JugadorEquipoController::class, 'getConfiguracion']);
 
 

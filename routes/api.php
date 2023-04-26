@@ -114,6 +114,15 @@ Route::get(
 
 
 // Jugador Equipo
+Route::apiResource('jugador-equipos', JugadorEquipoController::class);
+Route::post(
+  'delete-selected-jugador-equipos',
+  [JugadorEquipoController::class, 'deleteSelectedJugadorEquipos']
+);
+Route::get(
+  'get-jugador-equipos-by-equipo-disciplina/{id_equipo_disciplina}',
+  [JugadorEquipoController::class, 'getJugadorEquiposByEquipoDisciplina']
+);
 Route::get(
   'get-eventos-by-organizador/{id_organizador}',
   [JugadorEquipoController::class, 'getEventosByOrganizador']

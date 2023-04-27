@@ -34,7 +34,7 @@ class JugadorEquipoController extends Controller
         if (is_null($idEventoDisciplina))
             return response()->json(['message' => 'El Equipo Disciplina no existe'], 404);
 
-        if ($this->isJugadorRepetido($validatedData['id_jugador'], $idEventoDisciplina)) {
+        if ($this->isJugadorAlredyInDisciplina($validatedData['id_jugador'], $idEventoDisciplina)) {
             return response()->json(['message' => 'No es posible agregar el Jugador en la misma Disciplina'], 400);
         }
 
@@ -75,13 +75,16 @@ class JugadorEquipoController extends Controller
         if (is_null($idEventoDisciplina))
             return response()->json(['message' => 'El Equipo Disciplina no existe'], 404);
 
-        if ($this->isJugadorRepetido($validatedData['id_jugador'], $idEventoDisciplina)) {
-            return response()->json(['message' => 'No es posible agregar el Jugador en la misma Disciplina'], 400);
-        }
-
         $jugadorEquipo = JugadorEquipo::where('estado', 1)->find($id);
         if (is_null($jugadorEquipo))
             return response()->json(['message' => 'Jugador Equipo no encontrado'], 404);
+
+        if (
+            $jugadorEquipo->id_jugador != $validatedData['id_jugador'] &&
+            $this->isJugadorAlredyInDisciplina($validatedData['id_jugador'], $idEventoDisciplina)
+        ) {
+            return response()->json(['message' => 'No es posible agregar el Jugador en la misma Disciplina'], 400);
+        }
 
         $jugadorEquipo->fill($validatedData);
         $jugadorEquipo->save();
@@ -204,23 +207,6 @@ class JugadorEquipoController extends Controller
         return response()->json($eventoDisciplinasSmall, 200);
     }
 
-    public function getConfiguracion($id)
-    {
-        $configuracion = DB::table('configuracions', 'c')
-            ->join('usuarios as u', 'c.id_organizador', 'u.id')
-            ->select('c.*', 'u.nombre as nombre_organizador', 'u.apellido as apellido_organizador')
-            ->where('c.id', $id)
-            ->where('c.estado', 1)
-            ->where('u.estado', 1)
-            ->first();
-
-        if (is_null($configuracion)) {
-            return response()->json(['message' => 'No existe la configuración'], 404);
-        }
-
-        return response()->json($configuracion, 200);
-    }
-
     public function getEventoDisciplinasFullByEvento(string $id_evento)
     {
         $evento = DB::table('eventos')->where('estado', 1)->find($id_evento);
@@ -256,8 +242,34 @@ class JugadorEquipoController extends Controller
         return response()->json($eventoDisciplinas, 200);
     }
 
-    
-    private function isJugadorRepetido($idJugador, $idEventoDisciplina)
+    public function getJugadoresToAddByDisciplina($id_evento_disciplina)
+    {
+        $eventoDisciplina = DB::table('evento_disciplinas')
+            ->where('estado', 1)
+            ->find($id_evento_disciplina);
+
+        if (is_null($eventoDisciplina)) {
+            return response()->json(['message' => 'Evento Disciplina no existe'], 404);
+        }
+
+        $jugadorIdsEnDisciplina = DB::table('jugadors as j')
+            ->join('jugador_equipos as jeq', 'j.id', 'jeq.id_jugador')
+            ->join('equipo_disciplinas as eqd', 'eqd.id', 'jeq.id_equipo_disciplina')
+            ->where('eqd.id_evento_disciplina', $id_evento_disciplina)
+            ->where('j.estado', 1)
+            ->where('jeq.estado', 1)
+            ->where('eqd.estado', 1)
+            ->pluck('j.id')->toArray();
+
+        $jugadores = DB::table('jugadors')
+            ->where('estado', 1)
+            ->whereNotIn('id', $jugadorIdsEnDisciplina)
+            ->get();
+
+        return response()->json($jugadores, 200);
+    }
+
+    private function isJugadorAlredyInDisciplina($idJugador, $idEventoDisciplina)
     {
         return DB::table('jugador_equipos as jeq')
             ->join('jugadors as j', 'j.id', 'jeq.id_jugador')

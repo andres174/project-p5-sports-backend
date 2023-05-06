@@ -25,7 +25,20 @@ class GrupoController extends Controller
     
     public function store(Request $request)
     {
-        //
+        // esta forma de guardar puede cambiar
+        // este metodo guarda inicialmente los grupos 1 a 1
+
+        $valid_data = $request->validate([
+            'nombre_grupo' => 'required',
+            'id_evento_disciplina' => 'required',
+            'id_equipo' => 'required',
+        ]);
+
+        $grupo = Grupo::create([
+            'nombre_grupo' => $valid_data['nombre_grupo'],
+            
+        ]);
+
     }
 
     

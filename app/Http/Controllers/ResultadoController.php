@@ -114,7 +114,7 @@ class ResultadoController extends Controller
     public function deleteSelectResultados(request $request){
         $aux=explode(',',$request->ids);
         for($i=0; $i<count($aux); $i++){
-            $resultados=resultados::find($aux[$i]);
+            $resultados=Resultado::find($aux[$i]);
             $resultados->estado=0;
             $resultados->save();
         }

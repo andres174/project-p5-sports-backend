@@ -412,15 +412,15 @@ function burbuja4($arreglo)
 } 
 
 
-public function tablaGrupos($id_evento_disciplina){
+public function tablaGrupos($id){
     $grupo = DB::table('grupos')
     ->select('grupos.*')
-    ->where('grupos.id_evento_disciplina', $id_evento_disciplina)
+    ->where('grupos.id_evento_disciplina', $id)
     ->where('grupos.estado', 1)
     ->get();
-
     return response()->json($grupo);
 }
+
 
 
 }

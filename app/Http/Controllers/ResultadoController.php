@@ -133,7 +133,7 @@ class ResultadoController extends Controller
         return response()->json($equipo_disciplinas, 200);
     }
 
-    public function getPartido(){
+    public function getPartido(){        
 
         $partidos = DB::table('partidos')
         ->join('grupos', 'partidos.id_grupo', '=', 'grupos.id' )

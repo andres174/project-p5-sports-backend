@@ -81,7 +81,7 @@ Route::resource('resultado', ResultadoController::class);
 Route::get('get-Equipo-Disciplina', [ResultadoController::class, 'getEquipo_Disciplina']);
 Route::get('get-partidos', [ResultadoController::class, 'getPartido']);
 Route::get('tablaposiciones/{id}', [ResultadoController::class, 'tablePositiones']);
-
+Route::get('gettablaGrupos/{id}', [ResultadoController::class, 'tablaGrupos']);
 // Posiciones
 Route::apiResource('posiciones', PosicionController::class);
 Route::post('deleteSelectposicion', [PosicionController::class, 'deleteSelectPosicion']);
@@ -116,6 +116,20 @@ Route::get(
 
 
 // Jugador Equipo
+Route::apiResource('jugador-equipos', JugadorEquipoController::class);
+Route::post(
+  'delete-selected-jugador-equipos',
+  [JugadorEquipoController::class, 'deleteSelectedJugadorEquipos']
+);
+Route::get(
+  'get-jugadores-to-add-by-disciplina/{id_evento_disciplina}',
+  [JugadorEquipoController::class, 'getJugadoresToAddByDisciplina']
+);
+
+Route::get(
+  'get-jugador-equipos-by-equipo-disciplina/{id_equipo_disciplina}',
+  [JugadorEquipoController::class, 'getJugadorEquiposByEquipoDisciplina']
+);
 Route::get(
   'get-eventos-by-organizador/{id_organizador}',
   [JugadorEquipoController::class, 'getEventosByOrganizador']
@@ -128,7 +142,6 @@ Route::get(
   'get-evento-disciplinas-full-by-evento/{id_evento}',
   [JugadorEquipoController::class, 'getEventoDisciplinasFullByEvento']
 );
-Route::get('get-configuracion/{id}', [JugadorEquipoController::class, 'getConfiguracion']);
 
 
 //  Grupos

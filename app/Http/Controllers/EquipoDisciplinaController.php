@@ -44,11 +44,6 @@ class EquipoDisciplinaController extends Controller
             ->where('eqd.estado', 1)
             ->where('evd.estado', 1);
 
-        $maxNumberEquipos = $configuracion->numero_miembros * $configuracion->numero_grupos;
-        $numberEquipos = $equipoQuery->count();
-
-        if ($numberEquipos >= $maxNumberEquipos)
-            return response()->json(['message' => 'Se alzanzó el número máximo de Equipos en esta Disciplina'], 400);
 
         $equipoRepetido = $equipoQuery
             ->where('eq.id', $validatedData['id_equipo'])
@@ -56,6 +51,13 @@ class EquipoDisciplinaController extends Controller
 
         if ($equipoRepetido)
             return response()->json(['message' => 'El Equipo ya existe en la Disciplina'], 400);
+
+
+        $maxNumberEquipos = $configuracion->numero_miembros * $configuracion->numero_grupos;
+        $numberEquipos = $equipoQuery->count();
+
+        if ($numberEquipos >= $maxNumberEquipos)
+            return response()->json(['message' => 'Se alzanzó el número máximo de Equipos en esta Disciplina'], 400);
 
         $equipoDisciplina = EquipoDisciplina::create([
             ...$validatedData,
